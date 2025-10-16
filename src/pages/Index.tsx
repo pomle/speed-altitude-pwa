@@ -47,29 +47,28 @@ const Index = () => {
       {/* Position & Altitude Info */}
       {!loading && !error && (
         <>
-          <div className="grid grid-cols-3 gap-2 md:gap-4">
+          <div className="grid grid-cols-2 gap-2 sm:gap-4">
             <InfoCard
-              label={
-                <>
-                  <span className="md:hidden">LAT</span>
-                  <span className="hidden md:inline">Latitude</span>
-                </>
-              }
+              label={<>Latitude</>}
               value={formatCoordinate(coords?.latitude)}
               icon={<MoveVertical className="w-5 h-5" />}
               unit="°"
             />
             <InfoCard
-              label={
-                <>
-                  <span className="md:hidden">LON</span>
-                  <span className="hidden md:inline">Longitude</span>
-                </>
-              }
+              label={<>Longitude</>}
               value={formatCoordinate(coords?.longitude)}
               icon={<MoveHorizontal className="w-5 h-5" />}
               unit="°"
             />
+          </div>
+
+          {/* Speedometer */}
+          <div className="flex-1 flex items-center justify-center py-8">
+            <Speedometer speed={kph} maxSpeed={200} />
+          </div>
+
+          {/* Accuracy Info */}
+          <div className="grid grid-cols-2 gap-2 sm:gap-4">
             <InfoCard
               label={
                 <>
@@ -81,27 +80,18 @@ const Index = () => {
               icon={<Mountain className="w-5 h-5" />}
               unit="m"
             />
-          </div>
-
-          {/* Speedometer */}
-          <div className="flex-1 flex items-center justify-center py-8">
-            <Speedometer speed={kph} maxSpeed={200} />
-          </div>
-
-          {/* Accuracy Info */}
-          <div className="grid grid-cols-2 gap-2 md:gap-4">
-            <InfoCard
-              label="Position Accuracy"
-              value={formatValue(coords?.accuracy)}
-              icon={<TrendingUp className="w-5 h-5" />}
-              unit="m"
-            />
-            <InfoCard
-              label="Altitude Accuracy"
-              value={formatValue(coords?.altitudeAccuracy)}
-              icon={<TrendingUp className="w-5 h-5" />}
-              unit="m"
-            />
+            <div className="grid grid-cols-2 gap-2 sm:gap-4">
+              <InfoCard
+                label="Acc [Pos]"
+                value={formatValue(coords?.accuracy)}
+                unit="m"
+              />
+              <InfoCard
+                label="Acc [Alt]"
+                value={formatValue(coords?.altitudeAccuracy)}
+                unit="m"
+              />
+            </div>
           </div>
         </>
       )}
