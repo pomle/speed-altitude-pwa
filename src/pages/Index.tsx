@@ -46,19 +46,19 @@ const Index = () => {
         <>
           <div className="grid grid-cols-3 gap-2 md:gap-4">
             <InfoCard
-              label="Latitude"
+              label={<><span className="md:hidden">LAT</span><span className="hidden md:inline">Latitude</span></>}
               value={formatCoordinate(latitude)}
               icon={<Target className="w-5 h-5" />}
               unit="°"
             />
             <InfoCard
-              label="Longitude"
+              label={<><span className="md:hidden">LON</span><span className="hidden md:inline">Longitude</span></>}
               value={formatCoordinate(longitude)}
               icon={<Target className="w-5 h-5" />}
               unit="°"
             />
             <InfoCard
-              label="Altitude"
+              label={<><span className="md:hidden">ALT</span><span className="hidden md:inline">Altitude</span></>}
               value={formatValue(altitude)}
               icon={<Mountain className="w-5 h-5" />}
               unit="m"

@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { ReactNode } from "react";
 
 interface InfoCardProps {
-  label: string;
+  label: string | ReactNode;
   value: string | number;
   icon?: ReactNode;
   unit?: string;
