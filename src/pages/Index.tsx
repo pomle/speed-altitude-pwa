@@ -26,15 +26,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-dashboard-bg flex flex-col p-4 md:p-6 gap-6">
-      {/* Header */}
-      <header className="text-center">
-        <h1 className="text-3xl font-bold text-foreground mb-2 flex items-center justify-center gap-2">
-          <Navigation className="w-8 h-8 text-primary" />
-          GPS Tracker
-        </h1>
-        <p className="text-info-label text-sm">Real-time location and speed monitoring</p>
-      </header>
-
       {/* Error Alert */}
       {error && (
         <Alert variant="destructive">
