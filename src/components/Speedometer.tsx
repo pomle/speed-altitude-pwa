@@ -6,21 +6,8 @@ interface SpeedometerProps {
 }
 
 export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
-  const [displaySpeed, setDisplaySpeed] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDisplaySpeed((prev) => {
-        const diff = speed - prev;
-        if (Math.abs(diff) < 0.1) return speed;
-        return prev + diff * 0.1;
-      });
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, [speed]);
-
-  const percentage = Math.min((displaySpeed / maxSpeed) * 100, 100);
+  const fraction = speed / maxSpeed;
+  const percentage = fraction * 100;
   const rotation = (percentage / 100) * 270 - 135;
 
   return (
@@ -39,10 +26,16 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
             <stop offset="100%" stopColor="hsl(193 100% 70%)" />
           </linearGradient>
 
+          {/* Speed glow */}
+          <radialGradient id="speedGlow">
+            <stop offset="0%" stopColor="hsl(193 100% 50%)" />
+            <stop offset="100%" stopColor="hsla(193, 100%, 50%, 0)" />
+          </radialGradient>
+
           {/* Needle gradient */}
-          <linearGradient id="needleGradient" x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" />
-            <stop offset="100%" stopColor="hsl(var(--foreground))" />
+          <linearGradient id="needleGradient">
+            <stop offset="0%" stopColor="#fff" />
+            <stop offset="100%" stopColor="#fff" />
           </linearGradient>
 
           {/* Glow filter */}
@@ -66,36 +59,36 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
           cx="100"
           cy="100"
           r="70"
-          fill="hsl(var(--speed-glow))"
-          opacity={Math.min(percentage / 200, 0.2)}
-          filter="url(#glow)"
+          fill="url(#speedGlow)"
+          opacity={Math.min(fraction, 0.4)}
         />
 
         {/* Background arc */}
         <path
-          d="M 30 170 A 85 85 0 1 1 170 170"
+          d="M 38 162 A 88 88 0 1 1 162 162"
           fill="none"
           stroke="hsl(var(--gauge-track))"
-          strokeWidth="12"
+          strokeWidth="8"
           strokeLinecap="round"
+          className="transition-all duration-500"
         />
 
         {/* Speed arc with gradient */}
         <path
-          d="M 30 170 A 85 85 0 1 1 170 170"
+          d="M 38 162 A 88 88 0 1 1 162 162"
           fill="none"
           stroke="url(#speedGradient)"
-          strokeWidth="12"
+          strokeWidth="4"
           strokeLinecap="round"
-          strokeDasharray="401"
-          strokeDashoffset={401 - (401 * percentage) / 100}
+          strokeDasharray="416"
+          strokeDashoffset={415 - 415 * fraction}
           className="transition-all duration-500"
           filter="url(#glow)"
         />
 
         {/* Speed markers */}
         {Array.from({ length: 11 }).map((_, i) => {
-          const angle = -135 + i * 27;
+          const angle = 135 + i * 27;
           const rad = (angle * Math.PI) / 180;
           const x1 = 100 + Math.cos(rad) * 75;
           const y1 = 100 + Math.sin(rad) * 75;
@@ -126,17 +119,16 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
             x1="100"
             y1="100"
             x2="100"
-            y2="52"
-            stroke="url(#needleGradient)"
-            strokeWidth="2"
+            y2="46"
+            stroke="#fffb"
+            strokeWidth="1.5"
             strokeLinecap="round"
-            filter="url(#glow)"
           />
           {/* Needle tip */}
           <circle
             cx="100"
-            cy="52"
-            r="3"
+            cy="46"
+            r="1.5"
             fill="hsl(var(--primary))"
             filter="url(#glow)"
           />
@@ -146,10 +138,10 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
         <circle
           cx="100"
           cy="100"
-          r="6"
+          r="8"
           fill="hsl(var(--secondary))"
           stroke="hsl(var(--primary))"
-          strokeWidth="2"
+          strokeWidth="1"
         />
 
         {/* Speed display */}
@@ -158,16 +150,16 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
           y="140"
           textAnchor="middle"
           className="fill-foreground font-bold tabular-nums"
-          style={{ fontSize: "36px" }}
+          style={{ fontSize: "28px" }}
         >
-          {Math.round(displaySpeed)}
+          {Math.round(speed)}
         </text>
         <text
           x="100"
           y="152"
           textAnchor="middle"
           className="fill-info-label uppercase tracking-wider"
-          style={{ fontSize: "8px" }}
+          style={{ fontSize: "6px" }}
         >
           km/h
         </text>
