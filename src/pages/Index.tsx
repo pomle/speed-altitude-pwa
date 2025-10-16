@@ -64,7 +64,7 @@ const Index = () => {
 
           {/* Speedometer */}
           <div className="flex-1 flex items-center justify-center py-8">
-            <Speedometer speed={kph} maxSpeed={200} />
+            <Speedometer speed={kph} maxSpeed={250} />
           </div>
 
           {/* Accuracy Info */}

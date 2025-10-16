@@ -6,7 +6,7 @@ interface SpeedometerProps {
 }
 
 export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
-  const fraction = speed / maxSpeed;
+  const fraction = Math.min(speed / maxSpeed, 1);
   const rotation = fraction * 270 - 135;
   const percentage = fraction * 100;
 
@@ -112,8 +112,9 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
 
         {/* Needle */}
         <g
-          transform={`rotate(${rotation} 100 100)`}
+          transform={`rotate(${rotation})`}
           className="transition-transform duration-500 ease-out"
+          style={{ transformBox: "fill-box", transformOrigin: "bottom" }}
         >
           <line
             x1="100"
