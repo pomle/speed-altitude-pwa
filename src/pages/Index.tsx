@@ -44,7 +44,7 @@ const Index = () => {
       {/* Position & Altitude Info */}
       {!loading && !error && (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-2 md:gap-4">
             <InfoCard
               label="Latitude"
               value={formatCoordinate(latitude)}
@@ -71,7 +71,7 @@ const Index = () => {
           </div>
 
           {/* Accuracy Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-2 md:gap-4">
             <InfoCard
               label="Position Accuracy"
               value={formatValue(accuracy)}
