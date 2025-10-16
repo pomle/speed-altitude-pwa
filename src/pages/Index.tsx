@@ -87,11 +87,6 @@ const Index = () => {
           </div>
         </>
       )}
-
-      {/* Footer */}
-      <footer className="text-center text-xs text-info-label mt-auto">
-        <p>Enable location permissions for accurate tracking</p>
-      </footer>
     </div>
   );
 };
