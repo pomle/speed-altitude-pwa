@@ -7,8 +7,8 @@ interface SpeedometerProps {
 
 export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
   const fraction = speed / maxSpeed;
+  const rotation = fraction * 270 - 135;
   const percentage = fraction * 100;
-  const rotation = (percentage / 100) * 270 - 135;
 
   return (
     <div className="relative w-full max-w-md aspect-square mx-auto">
