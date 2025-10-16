@@ -32,45 +32,45 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
             <stop offset="0%" stopColor="hsl(var(--dashboard-gauge))" />
             <stop offset="100%" stopColor="hsl(var(--dashboard-bg))" />
           </radialGradient>
-          
+
           {/* Speed gradient */}
           <linearGradient id="speedGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="hsl(var(--primary))" />
             <stop offset="100%" stopColor="hsl(193 100% 70%)" />
           </linearGradient>
-          
+
           {/* Needle gradient */}
           <linearGradient id="needleGradient" x1="0%" y1="100%" x2="0%" y2="0%">
             <stop offset="0%" stopColor="hsl(var(--primary))" />
             <stop offset="100%" stopColor="hsl(var(--foreground))" />
           </linearGradient>
-          
+
           {/* Glow filter */}
           <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
             <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
         </defs>
-        
+
         {/* Outer ring */}
         <circle cx="100" cy="100" r="98" fill="url(#outerRing)" />
-        
+
         {/* Main gauge background */}
         <circle cx="100" cy="100" r="90" fill="hsl(var(--dashboard-bg))" />
-        
+
         {/* Speed glow effect */}
-        <circle 
-          cx="100" 
-          cy="100" 
-          r="70" 
-          fill="hsl(var(--speed-glow))" 
+        <circle
+          cx="100"
+          cy="100"
+          r="70"
+          fill="hsl(var(--speed-glow))"
           opacity={Math.min(percentage / 200, 0.2)}
           filter="url(#glow)"
         />
-        
+
         {/* Background arc */}
         <path
           d="M 30 170 A 85 85 0 1 1 170 170"
@@ -79,7 +79,7 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
           strokeWidth="12"
           strokeLinecap="round"
         />
-        
+
         {/* Speed arc with gradient */}
         <path
           d="M 30 170 A 85 85 0 1 1 170 170"
@@ -92,16 +92,16 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
           className="transition-all duration-500"
           filter="url(#glow)"
         />
-        
+
         {/* Speed markers */}
         {Array.from({ length: 11 }).map((_, i) => {
-          const angle = -135 + (i * 27);
+          const angle = -135 + i * 27;
           const rad = (angle * Math.PI) / 180;
           const x1 = 100 + Math.cos(rad) * 75;
           const y1 = 100 + Math.sin(rad) * 75;
           const x2 = 100 + Math.cos(rad) * (i % 2 === 0 ? 68 : 71);
           const y2 = 100 + Math.sin(rad) * (i % 2 === 0 ? 68 : 71);
-          
+
           return (
             <line
               key={i}
@@ -116,9 +116,12 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
             />
           );
         })}
-        
+
         {/* Needle */}
-        <g transform={`rotate(${rotation} 100 100)`} className="transition-transform duration-500 ease-out">
+        <g
+          transform={`rotate(${rotation} 100 100)`}
+          className="transition-transform duration-500 ease-out"
+        >
           <line
             x1="100"
             y1="100"
@@ -130,12 +133,25 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
             filter="url(#glow)"
           />
           {/* Needle tip */}
-          <circle cx="100" cy="52" r="3" fill="hsl(var(--primary))" filter="url(#glow)" />
+          <circle
+            cx="100"
+            cy="52"
+            r="3"
+            fill="hsl(var(--primary))"
+            filter="url(#glow)"
+          />
         </g>
-        
+
         {/* Center hub */}
-        <circle cx="100" cy="100" r="6" fill="hsl(var(--secondary))" stroke="hsl(var(--primary))" strokeWidth="2" />
-        
+        <circle
+          cx="100"
+          cy="100"
+          r="6"
+          fill="hsl(var(--secondary))"
+          stroke="hsl(var(--primary))"
+          strokeWidth="2"
+        />
+
         {/* Speed display */}
         <text
           x="100"
