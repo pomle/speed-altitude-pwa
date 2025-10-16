@@ -1,7 +1,7 @@
 import { Speedometer } from "@/components/Speedometer";
 import { InfoCard } from "@/components/InfoCard";
 import { useGeolocation } from "@/hooks/useGeolocation";
-import { Navigation, Mountain, Target, TrendingUp } from "lucide-react";
+import { Navigation, Mountain, MoveVertical, MoveHorizontal, TrendingUp } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Index = () => {
@@ -48,13 +48,13 @@ const Index = () => {
             <InfoCard
               label={<><span className="md:hidden">LAT</span><span className="hidden md:inline">Latitude</span></>}
               value={formatCoordinate(latitude)}
-              icon={<Target className="w-5 h-5" />}
+              icon={<MoveVertical className="w-5 h-5" />}
               unit="°"
             />
             <InfoCard
               label={<><span className="md:hidden">LON</span><span className="hidden md:inline">Longitude</span></>}
               value={formatCoordinate(longitude)}
-              icon={<Target className="w-5 h-5" />}
+              icon={<MoveHorizontal className="w-5 h-5" />}
               unit="°"
             />
             <InfoCard
