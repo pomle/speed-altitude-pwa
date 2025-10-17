@@ -1,0 +1,52 @@
+<svg viewBox="0 0 200 200" class="w-full h-full">
+  <defs>
+    <radialGradient id="outerRing">
+      <stop offset="0%" stop-color="hsl(var(--dashboard-gauge))"></stop>
+      <stop offset="100%" stop-color="hsl(var(--dashboard-bg))"></stop>
+    </radialGradient>
+    <linearGradient id="speedGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00c8ff"></stop>
+      <stop offset="100%" stop-color="hsl(193 100% 70%)"></stop>
+    </linearGradient>
+    <radialGradient id="speedGlow">
+      <stop offset="0%" stop-color="hsl(193 100% 50%)"></stop>
+      <stop offset="100%" stop-color="hsla(193, 100%, 50%, 0)"></stop>
+    </radialGradient>
+    <linearGradient id="needleGradient">
+      <stop offset="0%" stop-color="#fff"></stop>
+      <stop offset="100%" stop-color="#fff"></stop>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="coloredBlur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+  <circle cx="100" cy="100" r="98" fill="url(#outerRing)"></circle>
+  <circle cx="100" cy="100" r="90" fill="hsl(var(--dashboard-bg))"></circle>
+  <circle cx="100" cy="100" r="70" fill="url(#speedGlow)" opacity="0"></circle>
+  <path d="M 38 162 A 88 88 0 1 1 162 162" fill="none" stroke="hsl(var(--gauge-track))" stroke-width="8" stroke-linecap="round" class="transition-all duration-500"></path>
+  <path d="M 38 162 A 88 88 0 1 1 162 162" fill="none" stroke="url(#speedGradient)" stroke-width="4" stroke-linecap="round" stroke-dasharray="416" stroke-dashoffset="415" class="transition-all duration-500" filter="url(#glow)"></path>
+  <g stroke="hsl(215 20.2% 65.1%)">
+    <line x1="46.96699141100894" y1="153.03300858899107" x2="51.91673887931477" y2="148.08326112068522" stroke-width="2" stroke-linecap="round" opacity="0.6"></line>
+    <line x1="28.67076127786349" y1="123.17627457812107" x2="32.474987343044106" y2="121.94020660062128" stroke="hsl(215 20.2% 65.1%)" stroke-width="1" stroke-linecap="round" opacity="0.3"></line>
+    <line x1="25.923374455364666" y1="88.2674151219827" x2="32.83719283953063" y2="89.36245637726431" stroke="hsl(215 20.2% 65.1%)" stroke-width="2" stroke-linecap="round" opacity="0.6"></line>
+    <line x1="39.32372542187893" y1="55.91610607806452" x2="42.55979339937873" y2="58.267247087234416" stroke="hsl(215 20.2% 65.1%)" stroke-width="1" stroke-linecap="round" opacity="0.3"></line>
+    <line x1="65.95071251953398" y1="33.17451068587242" x2="69.1286460177108" y2="39.41155635519099" stroke="hsl(215 20.2% 65.1%)" stroke-width="2" stroke-linecap="round" opacity="0.6"></line>
+    <line x1="99.99999999999999" y1="25" x2="99.99999999999999" y2="29" stroke="hsl(215 20.2% 65.1%)" stroke-width="1" stroke-linecap="round" opacity="0.3"></line>
+    <line x1="134.049287480466" y1="33.174510685872406" x2="130.87135398228918" y2="39.41155635519098" stroke="hsl(215 20.2% 65.1%)" stroke-width="2" stroke-linecap="round" opacity="0.6"></line>
+    <line x1="160.67627457812105" y1="55.9161060780645" x2="157.44020660062125" y2="58.267247087234395" stroke="hsl(215 20.2% 65.1%)" stroke-width="1" stroke-linecap="round" opacity="0.3"></line>
+    <line x1="174.0766255446353" y1="88.26741512198267" x2="167.16280716046936" y2="89.36245637726428" stroke="hsl(215 20.2% 65.1%)" stroke-width="2" stroke-linecap="round" opacity="0.6"></line>
+    <line x1="171.32923872213652" y1="123.17627457812104" x2="167.5250126569559" y2="121.94020660062125" stroke="hsl(215 20.2% 65.1%)" stroke-width="1" stroke-linecap="round" opacity="0.3"></line>
+    <line x1="153.03300858899112" y1="153.033008588991" x2="148.08326112068528" y2="148.08326112068517" stroke="hsl(215 20.2% 65.1%)" stroke-width="2" stroke-linecap="round" opacity="0.6"></line>
+  </g>
+  <g transform="rotate(-135)" class="transition-transform duration-500 ease-out" style="transform-box: fill-box; transform-origin: center bottom;">
+    <line x1="100" y1="100" x2="100" y2="46" stroke="#fffb" stroke-width="1.5" stroke-linecap="round"></line>
+    <circle cx="100" cy="46" r="1.5" fill="#00c8ff" filter="url(#glow)"></circle>
+  </g>
+  <circle cx="100" cy="100" r="8" fill="hsl(var(--secondary))" stroke="#00c8ff" stroke-width="1"></circle>
+  <text x="100" y="140" text-anchor="middle" class="fill-foreground font-bold tabular-nums" style="font-size: 28px;">0</text>
+  <text x="100" y="152" text-anchor="middle" class="fill-info-label uppercase tracking-wider" style="font-size: 6px;">km/h</text>
+</svg>

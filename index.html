@@ -1,30 +1,497 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <meta name="theme-color" content="#0a0f1a" />
-    
+
     <title>GPS Raw - Real-time Speed & Location</title>
-    <meta name="description" content="Real-time GPS tracking with speedometer, altitude, and position accuracy monitoring" />
-    <meta name="keywords" content="GPS, tracker, speedometer, location, navigation, altitude" />
+    <meta
+      name="description"
+      content="Real-time GPS tracking with speedometer, altitude, and position accuracy monitoring"
+    />
+    <meta
+      name="keywords"
+      content="GPS, tracker, speedometer, location, navigation, altitude"
+    />
 
     <meta property="og:title" content="GPS Raw - Real-time Speed & Location" />
-    <meta property="og:description" content="Real-time GPS tracking with speedometer, altitude, and position accuracy monitoring" />
+    <meta
+      property="og:description"
+      content="Real-time GPS tracking with speedometer, altitude, and position accuracy monitoring"
+    />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:image" content="/opengraph-image.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="GPS Raw" />
-    <meta name="twitter:description" content="Real-time GPS tracking with speedometer" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta
+      name="twitter:description"
+      content="Real-time GPS tracking with speedometer"
+    />
+    <meta name="twitter:image" content="/opengraph-image.png" />
   </head>
 
+  <style>
+    body {
+      background: #0f131a;
+      font-family: system-ui, sans-serif;
+      display: grid;
+      gap: 16px;
+      grid-template-rows: auto 1fr auto;
+      margin: 24px;
+    }
+
+    header,
+    footer {
+      display: grid;
+      gap: 16px;
+    }
+
+    header {
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+    }
+
+    footer {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: #131720;
+      border: 1px solid #222a3a;
+      border-radius: 16px;
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .card .icon {
+      width: 20px;
+    }
+
+    .card label,
+    .label {
+      color: #94a3b8;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .card .value {
+      color: #f8fafc;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 28px;
+    }
+
+    .card .unit {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    main {
+      display: flex;
+    }
+
+    #speedometer {
+      max-width: 448px;
+      margin: auto;
+    }
+
+    .glow,
+    .needle,
+    .speedBar {
+      transition: all 0.5s;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        margin: 16px;
+      }
+
+      header,
+      footer {
+        gap: 12px;
+      }
+
+      footer {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .card {
+        padding: 8px;
+      }
+
+      .card label,
+      .label {
+        font-size: 10px;
+      }
+
+      .card .value {
+        font-size: 16px;
+      }
+    }
+  </style>
+
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <header>
+      <div class="card">
+        <img class="icon" src="./icons/vert.svg" />
+        <div class="data">
+          <label>Latitude</label>
+          <div>
+            <span id="latitude" class="value">—</span>
+            <span class="unit">°</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img class="icon" src="./icons/hori.svg" />
+        <div class="data">
+          <label>Longitude</label>
+          <div>
+            <span id="longitude" class="value">—</span>
+            <span class="unit">°</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <svg viewBox="0 0 200 200" id="speedometer">
+        <defs>
+          <radialGradient id="outerRing">
+            <stop offset="0%" stop-color="hsl(var(--dashboard-gauge))"></stop>
+            <stop offset="100%" stop-color="hsl(var(--dashboard-bg))"></stop>
+          </radialGradient>
+          <linearGradient id="speedGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00c8ff"></stop>
+            <stop offset="100%" stop-color="hsl(193 100% 70%)"></stop>
+          </linearGradient>
+          <radialGradient id="speedGlow">
+            <stop offset="0%" stop-color="hsl(193 100% 50%)"></stop>
+            <stop offset="100%" stop-color="hsla(193, 100%, 50%, 0)"></stop>
+          </radialGradient>
+          <linearGradient id="needleGradient">
+            <stop offset="0%" stop-color="#fff"></stop>
+            <stop offset="100%" stop-color="#fff"></stop>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur
+              stdDeviation="3"
+              result="coloredBlur"
+            ></feGaussianBlur>
+            <feMerge>
+              <feMergeNode in="coloredBlur"></feMergeNode>
+              <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+          </filter>
+        </defs>
+        <circle cx="100" cy="100" r="90" fill="hsl(220 26% 8%)"></circle>
+        <circle
+          cx="100"
+          cy="100"
+          r="70"
+          fill="url(#speedGlow)"
+          opacity="0"
+          class="glow"
+        ></circle>
+        <path
+          d="M 38 162 A 88 88 0 1 1 162 162"
+          fill="none"
+          stroke="hsl(220 26% 18%)"
+          stroke-width="8"
+          stroke-linecap="round"
+        ></path>
+        <path
+          d="M 38 162 A 88 88 0 1 1 162 162"
+          fill="none"
+          stroke="url(#speedGradient)"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-dasharray="416"
+          stroke-dashoffset="415"
+          class="speedBar"
+          filter="url(#glow)"
+        ></path>
+        <g stroke="hsl(215 20.2% 65.1%)">
+          <line
+            x1="46.96699141100894"
+            y1="153.03300858899107"
+            x2="51.91673887931477"
+            y2="148.08326112068522"
+            stroke-width="2"
+            stroke-linecap="round"
+            opacity="0.6"
+          ></line>
+          <line
+            x1="28.67076127786349"
+            y1="123.17627457812107"
+            x2="32.474987343044106"
+            y2="121.94020660062128"
+            stroke-width="1"
+            stroke-linecap="round"
+            opacity="0.3"
+          ></line>
+          <line
+            x1="25.923374455364666"
+            y1="88.2674151219827"
+            x2="32.83719283953063"
+            y2="89.36245637726431"
+            stroke-width="2"
+            stroke-linecap="round"
+            opacity="0.6"
+          ></line>
+          <line
+            x1="39.32372542187893"
+            y1="55.91610607806452"
+            x2="42.55979339937873"
+            y2="58.267247087234416"
+            stroke-width="1"
+            stroke-linecap="round"
+            opacity="0.3"
+          ></line>
+          <line
+            x1="65.95071251953398"
+            y1="33.17451068587242"
+            x2="69.1286460177108"
+            y2="39.41155635519099"
+            stroke-width="2"
+            stroke-linecap="round"
+            opacity="0.6"
+          ></line>
+          <line
+            x1="99.99999999999999"
+            y1="25"
+            x2="99.99999999999999"
+            y2="29"
+            stroke-width="1"
+            stroke-linecap="round"
+            opacity="0.3"
+          ></line>
+          <line
+            x1="134.049287480466"
+            y1="33.174510685872406"
+            x2="130.87135398228918"
+            y2="39.41155635519098"
+            stroke-width="2"
+            stroke-linecap="round"
+            opacity="0.6"
+          ></line>
+          <line
+            x1="160.67627457812105"
+            y1="55.9161060780645"
+            x2="157.44020660062125"
+            y2="58.267247087234395"
+            stroke-width="1"
+            stroke-linecap="round"
+            opacity="0.3"
+          ></line>
+          <line
+            x1="174.0766255446353"
+            y1="88.26741512198267"
+            x2="167.16280716046936"
+            y2="89.36245637726428"
+            stroke-width="2"
+            stroke-linecap="round"
+            opacity="0.6"
+          ></line>
+          <line
+            x1="171.32923872213652"
+            y1="123.17627457812104"
+            x2="167.5250126569559"
+            y2="121.94020660062125"
+            stroke-width="1"
+            stroke-linecap="round"
+            opacity="0.3"
+          ></line>
+          <line
+            x1="153.03300858899112"
+            y1="153.033008588991"
+            x2="148.08326112068528"
+            y2="148.08326112068517"
+            stroke-width="2"
+            stroke-linecap="round"
+            opacity="0.6"
+          ></line>
+        </g>
+        <g
+          transform="rotate(-135)"
+          class="needle"
+          style="transform-box: fill-box; transform-origin: center bottom"
+        >
+          <line
+            x1="100"
+            y1="100"
+            x2="100"
+            y2="46"
+            stroke="#fffb"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          ></line>
+          <circle
+            cx="100"
+            cy="46"
+            r="1.5"
+            fill="#00c8ff"
+            filter="url(#glow)"
+          ></circle>
+        </g>
+        <circle
+          cx="100"
+          cy="100"
+          r="8"
+          fill="#1a212d"
+          stroke="#00c8ff"
+          stroke-width="1"
+        ></circle>
+        <text
+          x="100"
+          y="140"
+          text-anchor="middle"
+          fill="#f8fafc"
+          style="font-size: 28px"
+          class="speed"
+        >
+          0
+        </text>
+        <text
+          x="100"
+          y="152"
+          text-anchor="middle"
+          class="label"
+          fill="#94a3b8"
+          style="font-size: 6px"
+        >
+          km/h
+        </text>
+      </svg>
+    </main>
+
+    <footer>
+      <div class="card">
+        <img class="icon" src="./icons/mount.svg" />
+        <div class="data">
+          <label>Altitude</label>
+          <div>
+            <span id="altitude" class="value">—</span>
+            <span class="unit">m</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="data">
+          <label>Heading</label>
+          <div>
+            <span id="heading" class="value">—</span>
+            <span class="unit">°</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="data">
+          <label>Positional Accuracy</label>
+          <div>
+            <span id="accuracy-pos" class="value">—</span>
+            <span class="unit">m</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="data">
+          <label>Altitudinal Accuracy</label>
+          <div>
+            <span id="accuracy-alt" class="value">—</span>
+            <span class="unit">m</span>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
+
+  <script>
+    const MAX_SPEED = 250;
+
+    function formatValue(value, decimals = 1) {
+      return value ? value.toFixed(decimals) : "—";
+    }
+
+    function Speedometer(node) {
+      const speedNode = node.querySelector(".speed");
+      const glowNode = node.querySelector(".glow");
+      const needleNode = node.querySelector(".needle");
+      const speedBarNode = node.querySelector(".speedBar");
+
+      return {
+        setSpeed(speed) {
+          const fraction = Math.min(speed / MAX_SPEED, 1);
+          const rotation = fraction * 270 - 135;
+
+          speedNode.textContent = speed.toFixed();
+          glowNode.setAttribute("opacity", Math.min(fraction, 0.4));
+          needleNode.setAttribute("transform", `rotate(${rotation})`);
+          speedBarNode.setAttribute("stroke-dashoffset", 415 - 415 * fraction);
+        },
+      };
+    }
+
+    function PositionUI(node) {
+      const speedometerNode = node.querySelector("#speedometer");
+      const latNode = node.querySelector("#latitude");
+      const lonNode = node.querySelector("#longitude");
+      const altNode = node.querySelector("#altitude");
+      const headNode = node.querySelector("#heading");
+      const posAccNode = node.querySelector("#accuracy-pos");
+      const altAccNode = node.querySelector("#accuracy-alt");
+
+      const speedometer = new Speedometer(speedometerNode);
+
+      return {
+        speedometer,
+
+        setGeo(geo) {
+          console.log(geo);
+          const coords = geo.coords;
+          latNode.textContent = formatValue(coords.latitude, 6);
+          lonNode.textContent = formatValue(coords.longitude, 6);
+          altNode.textContent = formatValue(coords.altitude, 1);
+          headNode.textContent = formatValue(coords.heading, 0);
+
+          posAccNode.textContent = formatValue(coords.accuracy, 0);
+          altAccNode.textContent = formatValue(coords.altitudeAccuracy, 0);
+
+          speedometer.setSpeed(coords.speed ?? 0);
+        },
+      };
+    }
+
+    const ui = new PositionUI(document);
+    window.ui = ui;
+
+    const watchId = navigator.geolocation.watchPosition(
+      ui.setGeo,
+      console.warn,
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      }
+    );
+  </script>
 </html>
