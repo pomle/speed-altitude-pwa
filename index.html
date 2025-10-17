@@ -173,10 +173,6 @@
     <main>
       <svg viewBox="0 0 200 200" id="speedometer">
         <defs>
-          <radialGradient id="outerRing">
-            <stop offset="0%" stop-color="hsl(var(--dashboard-gauge))"></stop>
-            <stop offset="100%" stop-color="hsl(var(--dashboard-bg))"></stop>
-          </radialGradient>
           <linearGradient id="speedGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stop-color="#00c8ff"></stop>
             <stop offset="100%" stop-color="hsl(193 100% 70%)"></stop>
@@ -200,7 +196,6 @@
             </feMerge>
           </filter>
         </defs>
-        <circle cx="100" cy="100" r="90" fill="hsl(220 26% 8%)"></circle>
         <circle
           cx="100"
           cy="100"
