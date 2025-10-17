@@ -567,7 +567,7 @@
 
           speedNode.textContent = speed.toFixed();
           glowNode.setAttribute("opacity", Math.min(fraction, 0.4));
-          needleNode.setAttribute("transform", `rotate(${rotation} 100 100)`);
+          needleNode.setAttribute("transform", `rotate(${rotation})`);
           speedBarNode.setAttribute("stroke-dashoffset", 415 - 415 * fraction);
         },
       };
