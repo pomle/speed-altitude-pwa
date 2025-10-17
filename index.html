@@ -40,115 +40,115 @@
       content="Real-time GPS tracking with speedometer"
     />
     <meta name="twitter:image" content="/opengraph-image.png" />
-  </head>
 
-  <style>
-    body {
-      background: #0f131a;
-      font-family: system-ui, sans-serif;
-      display: grid;
-      gap: 16px;
-      grid-template-rows: auto 1fr auto;
-      margin: 24px;
-    }
-
-    header,
-    footer {
-      display: grid;
-      gap: 16px;
-    }
-
-    header {
-      grid-auto-flow: column;
-      grid-auto-columns: 1fr;
-    }
-
-    footer {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .card {
-      background: #131720;
-      border: 1px solid #222a3a;
-      border-radius: 16px;
-      display: flex;
-      gap: 12px;
-      padding: 16px;
-    }
-
-    .card .icon {
-      width: 20px;
-    }
-
-    .card label,
-    .label {
-      color: #94a3b8;
-      font-size: 12px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .card .value {
-      color: #f8fafc;
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 28px;
-    }
-
-    .card .unit {
-      color: #94a3b8;
-      font-size: 14px;
-    }
-
-    main {
-      display: flex;
-    }
-
-    #speedometer {
-      max-width: 448px;
-      margin: auto;
-    }
-
-    .glow,
-    .needle,
-    .speedBar {
-      transition: all 0.5s;
-    }
-
-    .needle {
-      transform-origin: bottom center;
-      transform-box: fill-box;
-    }
-
-    @media (max-width: 640px) {
+    <style>
       body {
-        margin: 16px;
+        background: #0f131a;
+        font-family: system-ui, sans-serif;
+        display: grid;
+        gap: 16px;
+        grid-template-rows: auto 1fr auto;
+        margin: 24px;
       }
 
       header,
       footer {
-        gap: 12px;
+        display: grid;
+        gap: 16px;
+      }
+
+      header {
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
       }
 
       footer {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
       }
 
       .card {
-        padding: 8px;
+        background: #131720;
+        border: 1px solid #222a3a;
+        border-radius: 16px;
+        display: flex;
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .card .icon {
+        width: 20px;
       }
 
       .card label,
       .label {
-        font-size: 10px;
+        color: #94a3b8;
+        font-size: 12px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
       }
 
       .card .value {
-        font-size: 16px;
+        color: #f8fafc;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 28px;
       }
-    }
-  </style>
+
+      .card .unit {
+        color: #94a3b8;
+        font-size: 14px;
+      }
+
+      main {
+        display: flex;
+      }
+
+      #speedometer {
+        max-width: 448px;
+        margin: auto;
+      }
+
+      .glow,
+      .needle,
+      .speedBar {
+        transition: all 0.5s;
+      }
+
+      .needle {
+        transform-origin: bottom center;
+        transform-box: fill-box;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          margin: 16px;
+        }
+
+        header,
+        footer {
+          gap: 12px;
+        }
+
+        footer {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .card {
+          padding: 8px;
+        }
+
+        .card label,
+        .label {
+          font-size: 10px;
+        }
+
+        .card .value {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
 
   <body>
     <header>
