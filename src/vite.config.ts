@@ -12,7 +12,7 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.png"],
       manifest: {
-        name: "GPS Raw - Real-time Speed & Location",
+        name: "GPS Raw",
         short_name: "GPS Raw",
         description:
           "Real-time GPS tracking with speedometer, altitude, and position accuracy monitoring",
