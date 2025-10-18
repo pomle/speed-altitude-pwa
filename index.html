@@ -599,7 +599,7 @@
           posAccNode.textContent = formatValue(coords.accuracy, 0);
           altAccNode.textContent = formatValue(coords.altitudeAccuracy, 0);
 
-          speedometer.setSpeed(coords.speed ?? 0);
+          speedometer.setSpeed(coords.speed ? coords.speed * 3.6 : 0);
         },
       };
     }
