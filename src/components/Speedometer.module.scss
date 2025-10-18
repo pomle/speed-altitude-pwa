@@ -1,0 +1,10 @@
+.glow,
+.needle,
+.speedBar {
+  transition: all 0.5s;
+}
+
+.needle {
+  transform-origin: bottom center;
+  transform-box: fill-box;
+}

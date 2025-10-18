@@ -1,0 +1,45 @@
+.Index {
+  display: grid;
+  gap: 16px;
+  grid-template-rows: auto 1fr auto;
+  margin: 24px;
+
+  header,
+  footer {
+    display: grid;
+    gap: 16px;
+  }
+
+  header {
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+  }
+
+  footer {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  main {
+    display: flex;
+  }
+
+  .speedometer {
+    margin: auto;
+    max-width: 448px;
+    width: 100%;
+  }
+
+  @media (max-width: 640px) {
+    margin: 16px;
+
+    header,
+    footer {
+      gap: 12px;
+    }
+
+    footer {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

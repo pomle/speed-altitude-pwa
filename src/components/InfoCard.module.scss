@@ -1,0 +1,47 @@
+.card {
+  background: #131720;
+  border: 1px solid #222a3a;
+  border-radius: 16px;
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+}
+
+.card .icon {
+  width: 20px;
+}
+
+.card label,
+.label {
+  color: #94a3b8;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.card .value {
+  color: #f8fafc;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+.card .unit {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 8px;
+  }
+
+  .card label,
+  .label {
+    font-size: 10px;
+  }
+
+  .card .value {
+    font-size: 16px;
+  }
+}
