@@ -1,5 +1,7 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import styles from "./Speedometer.module.scss";
+import { createTimer } from "../lib/timer";
+import { spring } from "@pomle/tween";
 
 const Markers = memo(() => {
   const arc = 270;
@@ -31,11 +33,40 @@ const Markers = memo(() => {
 
 interface SpeedometerProps {
   speed: number;
+  label: string;
   maxSpeed?: number;
 }
 
-export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
-  const fraction = Math.min(speed / maxSpeed, 1);
+export const Speedometer = ({
+  label,
+  speed,
+  maxSpeed = 200,
+}: SpeedometerProps) => {
+  const [speedProxy, setSpeedProxy] = useState(speed);
+
+  const tween = useMemo(() => {
+    return spring({ speed: 0 }, { mass: 400, friction: 30, stiffness: 50 });
+  }, []);
+
+  useEffect(() => {
+    const timer = createTimer((dt) => {
+      if (tween.update(dt)) {
+        setSpeedProxy(tween.value.speed);
+      }
+    });
+
+    timer.start();
+
+    return () => {
+      timer.stop();
+    };
+  }, [tween]);
+
+  useEffect(() => {
+    tween.to({ speed });
+  }, [tween, speed, maxSpeed]);
+
+  const fraction = Math.min(speedProxy / maxSpeed, 1);
   const rotation = fraction * 270 - 135;
 
   return (
@@ -136,7 +167,7 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
         fill="#94a3b8"
         style={{ fontSize: "6px" }}
       >
-        km/h
+        {label}
       </text>
     </svg>
   );

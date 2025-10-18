@@ -37,7 +37,7 @@ const Index = () => {
 
       <main>
         <div className={styles.speedometer}>
-          <Speedometer speed={kph} />
+          <Speedometer speed={kph} maxSpeed={240} label="km/h" />
         </div>
       </main>
 
