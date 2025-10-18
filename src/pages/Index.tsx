@@ -5,7 +5,7 @@ import VertIcon from "../icons/vert.svg?react";
 import HoriIcon from "../icons/hori.svg?react";
 import MountIcon from "../icons/mount.svg?react";
 import styles from "./Index.module.scss";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { spring } from "@pomle/tween";
 import { createTimer } from "../lib/timer";
 
@@ -32,6 +32,12 @@ const DEFAULT: CoordProxy = {
   heading: 0,
   accuracy: 0,
 };
+
+const SPEED_UNITS = [
+  { label: "km/h", multiplier: 3.6, max: 240 },
+  { label: "mph", multiplier: 2.237, max: 160 },
+  { label: "kts", multiplier: 1.944, max: 100 },
+];
 
 const Index = () => {
   const { position, error } = useGeolocation();
@@ -64,7 +70,17 @@ const Index = () => {
     }
   }, [tween, coords]);
 
-  const kph = coordProxy ? coordProxy.speed * 3.6 : 0;
+  const [unit, setUnit] = useState(SPEED_UNITS[0]);
+
+  const cycleUnit = useCallback(() => {
+    setUnit((unit) => {
+      const index = SPEED_UNITS.indexOf(unit) + 1;
+      return SPEED_UNITS[index % SPEED_UNITS.length];
+    });
+  }, []);
+
+  const speed = coordProxy ? coordProxy.speed * unit.multiplier : 0;
+  const maxSpeed = unit.max;
 
   return (
     <div className={styles.Index}>
@@ -85,8 +101,8 @@ const Index = () => {
       </header>
 
       <main>
-        <div className={styles.speedometer}>
-          <Speedometer speed={kph} maxSpeed={240} label="km/h" />
+        <div className={styles.speedometer} onClick={cycleUnit}>
+          <Speedometer speed={speed} maxSpeed={maxSpeed} label={unit.label} />
         </div>
       </main>
 
