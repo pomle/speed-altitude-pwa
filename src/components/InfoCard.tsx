@@ -11,11 +11,11 @@ interface InfoCardProps {
 export const InfoCard = ({ label, value, icon, unit }: InfoCardProps) => {
   return (
     <div className={styles.card}>
-      {icon}
+      <div className={styles.icon}>{icon}</div>
       <div className={styles.data}>
         <label>{label}</label>
         <div>
-          <span className={styles.value}>—</span>{" "}
+          <span className={styles.value}>{value}</span>{" "}
           <span className={styles.unit}>{unit}</span>
         </div>
       </div>
