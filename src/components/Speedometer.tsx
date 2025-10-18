@@ -1,5 +1,33 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import styles from "./Speedometer.module.scss";
+
+const Markers = memo(() => {
+  const arc = 270;
+  const lines = 25;
+  const offset = arc / (lines - 1);
+
+  return Array.from({ length: lines }).map((_, i) => {
+    const angle = 135 + i * offset;
+    const rad = (angle * Math.PI) / 180;
+    const x1 = 100 + Math.cos(rad) * 75;
+    const y1 = 100 + Math.sin(rad) * 75;
+    const x2 = 100 + Math.cos(rad) * (i % 2 === 0 ? 68 : 71);
+    const y2 = 100 + Math.sin(rad) * (i % 2 === 0 ? 68 : 71);
+
+    return (
+      <line
+        key={i}
+        x1={x1}
+        y1={y1}
+        x2={x2}
+        y2={y2}
+        strokeWidth={i % 2 === 0 ? "2" : "1"}
+        strokeLinecap="round"
+        opacity={i % 2 === 0 ? "0.6" : "0.3"}
+      />
+    );
+  });
+});
 
 interface SpeedometerProps {
   speed: number;
@@ -63,231 +91,7 @@ export const Speedometer = ({ speed, maxSpeed = 200 }: SpeedometerProps) => {
         filter="url(#glow)"
       ></path>
       <g stroke="hsl(215 20.2% 65.1%)">
-        <line
-          x1="46.96699141100894"
-          y1="153.03300858899107"
-          x2="51.91673887931477"
-          y2="148.08326112068522"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="37.6397790773091"
-          y1="141.66776747647015"
-          x2="40.96565752651928"
-          y2="139.44548654439177"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="30.709035061653495"
-          y1="128.70125742738173"
-          x2="37.176191789232504"
-          y2="126.02247340082612"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="26.44110396975772"
-          y1="114.63177415120961"
-          x2="30.364245091370634"
-          y2="113.8514128631451"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="25"
-          y1="100.00000000000001"
-          x2="32"
-          y2="100.00000000000001"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="26.441103969757705"
-          y1="85.3682258487904"
-          x2="30.364245091370634"
-          y2="86.14858713685491"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="30.70903506165348"
-          y1="71.29874257261831"
-          x2="37.17619178923249"
-          y2="73.97752659917393"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="37.63977907730911"
-          y1="58.332232523529825"
-          x2="40.96565752651929"
-          y2="60.55451345560824"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="46.96699141100893"
-          y1="46.96699141100894"
-          x2="51.91673887931476"
-          y2="51.91673887931477"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="58.332232523529775"
-          y1="37.63977907730914"
-          x2="60.55451345560819"
-          y2="40.96565752651932"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="71.2987425726183"
-          y1="30.70903506165348"
-          x2="73.97752659917391"
-          y2="37.1761917892325"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="85.36822584879035"
-          y1="26.44110396975772"
-          x2="86.14858713685487"
-          y2="30.36424509137065"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="99.99999999999999"
-          y1="25"
-          x2="99.99999999999999"
-          y2="32"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="114.63177415120963"
-          y1="26.44110396975772"
-          x2="113.85141286314511"
-          y2="30.364245091370634"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="128.70125742738176"
-          y1="30.70903506165351"
-          x2="126.02247340082612"
-          y2="37.17619178923251"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="141.66776747647015"
-          y1="37.63977907730909"
-          x2="139.44548654439174"
-          y2="40.96565752651927"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="153.03300858899104"
-          y1="46.96699141100893"
-          x2="148.08326112068522"
-          y2="51.91673887931476"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="162.3602209226909"
-          y1="58.33223252352984"
-          x2="159.0343424734807"
-          y2="60.554513455608244"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="169.29096493834652"
-          y1="71.29874257261828"
-          x2="162.8238082107675"
-          y2="73.97752659917391"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="173.5588960302423"
-          y1="85.36822584879035"
-          x2="169.63575490862934"
-          y2="86.14858713685486"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="175"
-          y1="99.99999999999999"
-          x2="168"
-          y2="99.99999999999999"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="173.5588960302423"
-          y1="114.63177415120961"
-          x2="169.63575490862937"
-          y2="113.8514128631451"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="169.29096493834652"
-          y1="128.70125742738168"
-          x2="162.82380821076754"
-          y2="126.02247340082606"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
-        <line
-          x1="162.3602209226909"
-          y1="141.66776747647015"
-          x2="159.03434247348073"
-          y2="139.44548654439174"
-          stroke-width="1"
-          stroke-linecap="round"
-          opacity="0.3"
-        />
-        <line
-          x1="153.03300858899112"
-          y1="153.033008588991"
-          x2="148.08326112068528"
-          y2="148.08326112068517"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.6"
-        />
+        <Markers />
       </g>
       <g className={styles.needle} transform={`rotate(${rotation})`}>
         <line
