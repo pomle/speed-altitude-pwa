@@ -4,6 +4,7 @@ import { useGeolocation } from "../hooks/useGeolocation";
 import VertIcon from "../icons/vert.svg?react";
 import HoriIcon from "../icons/hori.svg?react";
 import MountIcon from "../icons/mount.svg?react";
+import UpIcon from "../icons/up-arrow.svg?react";
 import styles from "./Index.module.scss";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { spring } from "@pomle/tween";
@@ -115,6 +116,11 @@ const Index = () => {
         />
 
         <InfoCard
+          icon={
+            <UpIcon
+              style={{ transform: `rotateZ(${coordProxy?.heading ?? 0})` }}
+            />
+          }
           label="Heading"
           value={formatValue(coordProxy?.heading, 0)}
           unit="°"
