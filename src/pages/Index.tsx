@@ -5,9 +5,32 @@ import VertIcon from "../icons/vert.svg?react";
 import HoriIcon from "../icons/hori.svg?react";
 import MountIcon from "../icons/mount.svg?react";
 import styles from "./Index.module.scss";
+import { useEffect, useMemo, useState } from "react";
+import { spring } from "@pomle/tween";
+import { createTimer } from "../lib/timer";
 
 const formatValue = (value: number | null, decimals = 1) => {
   return typeof value === "number" ? value.toFixed(decimals) : "—";
+};
+
+type CoordProxy = {
+  latitude: number;
+  longitude: number;
+  speed: number;
+  altitude: number;
+  heading: number;
+  altitudeAccuracy: number;
+  accuracy: number;
+};
+
+const DEFAULT: CoordProxy = {
+  latitude: 0,
+  longitude: 0,
+  speed: 0,
+  altitude: 0,
+  altitudeAccuracy: 0,
+  heading: 0,
+  accuracy: 0,
 };
 
 const Index = () => {
@@ -15,7 +38,33 @@ const Index = () => {
 
   const coords = position?.coords;
 
-  const kph = coords?.speed ? coords.speed * 3.6 : 0;
+  const [coordProxy, setCoordProxy] = useState<CoordProxy>(DEFAULT);
+
+  const [tween] = useState(() => {
+    return spring(DEFAULT, { mass: 400, friction: 30, stiffness: 50 });
+  });
+
+  useEffect(() => {
+    const timer = createTimer((dt) => {
+      if (tween.update(dt)) {
+        setCoordProxy({ ...tween.value });
+      }
+    });
+
+    timer.start();
+
+    return () => {
+      timer.stop();
+    };
+  }, [tween]);
+
+  useEffect(() => {
+    if (coords) {
+      tween.to(coords);
+    }
+  }, [tween, coords]);
+
+  const kph = coordProxy ? coordProxy.speed * 3.6 : 0;
 
   return (
     <div className={styles.Index}>
@@ -23,14 +72,14 @@ const Index = () => {
         <InfoCard
           icon={<VertIcon />}
           label="Latitude"
-          value={formatValue(coords?.latitude, 6)}
+          value={formatValue(coordProxy?.latitude, 6)}
           unit="°"
         />
 
         <InfoCard
           icon={<HoriIcon />}
           label="Longitude"
-          value={formatValue(coords?.longitude, 6)}
+          value={formatValue(coordProxy?.longitude, 6)}
           unit="°"
         />
       </header>
@@ -45,25 +94,25 @@ const Index = () => {
         <InfoCard
           icon={<MountIcon />}
           label="Altitude"
-          value={formatValue(coords?.altitude, 1)}
+          value={formatValue(coordProxy?.altitude, 1)}
           unit="m"
         />
 
         <InfoCard
           label="Heading"
-          value={formatValue(coords?.heading, 0)}
+          value={formatValue(coordProxy?.heading, 0)}
           unit="°"
         />
 
         <InfoCard
           label="Positional Accuracy"
-          value={formatValue(coords?.accuracy, 1)}
+          value={formatValue(coordProxy?.accuracy, 1)}
           unit="m"
         />
 
         <InfoCard
           label="Altitudinal Accuracy"
-          value={formatValue(coords?.altitudeAccuracy, 1)}
+          value={formatValue(coordProxy?.altitudeAccuracy, 1)}
           unit="m"
         />
       </footer>

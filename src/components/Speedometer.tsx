@@ -42,31 +42,7 @@ export const Speedometer = ({
   speed,
   maxSpeed = 200,
 }: SpeedometerProps) => {
-  const [speedProxy, setSpeedProxy] = useState(speed);
-
-  const tween = useMemo(() => {
-    return spring({ speed: 0 }, { mass: 400, friction: 30, stiffness: 50 });
-  }, []);
-
-  useEffect(() => {
-    const timer = createTimer((dt) => {
-      if (tween.update(dt)) {
-        setSpeedProxy(tween.value.speed);
-      }
-    });
-
-    timer.start();
-
-    return () => {
-      timer.stop();
-    };
-  }, [tween]);
-
-  useEffect(() => {
-    tween.to({ speed });
-  }, [tween, speed, maxSpeed]);
-
-  const fraction = Math.min(speedProxy / maxSpeed, 1);
+  const fraction = Math.min(speed / maxSpeed, 1);
   const rotation = fraction * 270 - 135;
 
   return (
@@ -157,7 +133,7 @@ export const Speedometer = ({
         fill="#f8fafc"
         style={{ fontSize: "28px" }}
       >
-        {speed}
+        {speed.toFixed()}
       </text>
       <text
         x="100"
