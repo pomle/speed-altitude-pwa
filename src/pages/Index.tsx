@@ -15,23 +15,23 @@ const formatValue = (value: number | null, decimals = 1) => {
 };
 
 type CoordProxy = {
+  accuracy: number;
+  altitude: number;
+  altitudeAccuracy: number;
+  heading: number;
   latitude: number;
   longitude: number;
   speed: number;
-  altitude: number;
-  heading: number;
-  altitudeAccuracy: number;
-  accuracy: number;
 };
 
 const DEFAULT: CoordProxy = {
-  latitude: 0,
-  longitude: 0,
-  speed: 0,
+  accuracy: 0,
   altitude: 0,
   altitudeAccuracy: 0,
   heading: 0,
-  accuracy: 0,
+  latitude: 0,
+  longitude: 0,
+  speed: 0,
 };
 
 const SPEED_UNITS = [
