@@ -49,16 +49,16 @@ export const Speedometer = ({
     <svg viewBox="0 0 200 200">
       <defs>
         <linearGradient id="speedGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#00c8ff"></stop>
-          <stop offset="100%" stop-color="hsl(193 100% 70%)"></stop>
+          <stop offset="0%" stopColor="#00c8ff"></stop>
+          <stop offset="100%" stopColor="hsl(193 100% 70%)"></stop>
         </linearGradient>
         <radialGradient id="speedGlow">
-          <stop offset="0%" stop-color="hsl(193 100% 50%)"></stop>
-          <stop offset="100%" stop-color="hsla(193, 100%, 50%, 0)"></stop>
+          <stop offset="0%" stopColor="hsl(193 100% 50%)"></stop>
+          <stop offset="100%" stopColor="hsla(193, 100%, 50%, 0)"></stop>
         </radialGradient>
         <linearGradient id="needleGradient">
-          <stop offset="0%" stop-color="#fff"></stop>
-          <stop offset="100%" stop-color="#fff"></stop>
+          <stop offset="0%" stopColor="#fff"></stop>
+          <stop offset="100%" stopColor="#fff"></stop>
         </linearGradient>
         <filter id="glow">
           <feGaussianBlur
@@ -83,17 +83,17 @@ export const Speedometer = ({
         d="M 38 162 A 88 88 0 1 1 162 162"
         fill="none"
         stroke="hsl(220 26% 18%)"
-        stroke-width="8"
-        stroke-linecap="round"
+        strokeWidth="8"
+        strokeLinecap="round"
       ></path>
       <path
         d="M 38 162 A 88 88 0 1 1 162 162"
         fill="none"
         stroke="url(#speedGradient)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-dasharray="416"
-        stroke-dashoffset={415 - 415 * fraction}
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeDasharray="416"
+        strokeDashoffset={415 - 415 * fraction}
         className={styles.speedBar}
         filter="url(#glow)"
       ></path>
@@ -107,8 +107,8 @@ export const Speedometer = ({
           x2="100"
           y2="46"
           stroke="#fffb"
-          stroke-width="1.5"
-          stroke-linecap="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
         />
         <circle
           cx="100"
@@ -124,12 +124,12 @@ export const Speedometer = ({
         r="8"
         fill="#1a212d"
         stroke="#00c8ff"
-        stroke-width="1"
+        strokeWidth="1"
       ></circle>
       <text
         x="100"
         y="140"
-        text-anchor="middle"
+        textAnchor="middle"
         fill="#f8fafc"
         style={{ fontSize: "28px" }}
       >
@@ -138,7 +138,7 @@ export const Speedometer = ({
       <text
         x="100"
         y="152"
-        text-anchor="middle"
+        textAnchor="middle"
         className={styles.label}
         fill="#94a3b8"
         style={{ fontSize: "6px" }}
