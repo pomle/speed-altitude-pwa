@@ -124,6 +124,7 @@ export const Speedometer = ({
         {speed.toFixed()}
       </text>
       <text
+        key={label}
         x="100"
         y="152"
         textAnchor="middle"
