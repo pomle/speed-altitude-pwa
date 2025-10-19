@@ -144,7 +144,7 @@ const Index = () => {
 
         <InfoCard
           icon={
-            <UpIcon style={{ transform: `rotateZ(${data?.heading ?? 0})` }} />
+            <UpIcon style={{ transform: `rotateZ(${data?.heading ?? 0}deg)` }} />
           }
           label="Heading"
           value={formatValue(data.heading, 0)}
