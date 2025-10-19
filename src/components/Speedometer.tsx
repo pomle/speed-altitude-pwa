@@ -93,7 +93,7 @@ export const Speedometer = ({
         className={styles.speedBar}
         filter="url(#glow)"
       />
-      <g stroke="hsl(215 20.2% 65.1%)">
+      <g stroke="hsl(215 20.2% 65.1%)" className={styles.markers} key={ticks}>
         <Markers ticks={ticks} />
       </g>
       <g className={styles.needle} transform={`rotate(${rotation})`}>
