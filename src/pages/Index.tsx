@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import { spring } from "@pomle/tween";
 import { createTimer } from "../lib/timer";
 
-const formatValue = (value: number | null, decimals = 1) => {
+function formatValue(value: number | null, decimals = 1) {
   return typeof value === "number" ? value.toFixed(decimals) : "—";
 };
 
