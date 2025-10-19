@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export const useGeolocation = () => {
-  const [position, setPosition] = useState<GeolocationPosition>();
+  const [geo, setGeo] = useState<GeolocationPosition>();
   const [error, setError] = useState<Error | GeolocationPositionError>();
 
   useEffect(() => {
@@ -10,7 +10,7 @@ export const useGeolocation = () => {
       return;
     }
 
-    const watchId = navigator.geolocation.watchPosition(setPosition, setError, {
+    const watchId = navigator.geolocation.watchPosition(setGeo, setError, {
       enableHighAccuracy: true,
       timeout: 5000,
       maximumAge: 0,
@@ -21,5 +21,5 @@ export const useGeolocation = () => {
     };
   }, []);
 
-  return { position, error };
+  return { geo, error };
 };

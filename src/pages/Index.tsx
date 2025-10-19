@@ -41,9 +41,9 @@ const SPEED_UNITS = [
 ];
 
 const Index = () => {
-  const { position, error } = useGeolocation();
+  const { geo, error } = useGeolocation();
 
-  const coords = position?.coords;
+  const coords = geo?.coords;
 
   const [coordProxy, setCoordProxy] = useState<CoordProxy>(DEFAULT);
 
