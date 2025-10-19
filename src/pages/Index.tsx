@@ -6,7 +6,7 @@ import HoriIcon from "../icons/hori.svg?react";
 import MountIcon from "../icons/mount.svg?react";
 import UpIcon from "../icons/up-arrow.svg?react";
 import styles from "./Index.module.scss";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { spring } from "@pomle/tween";
 import { createTimer } from "../lib/timer";
 
@@ -14,7 +14,7 @@ const formatValue = (value: number | null, decimals = 1) => {
   return typeof value === "number" ? value.toFixed(decimals) : "—";
 };
 
-type CoordProxy = {
+type GPSData = {
   accuracy: number;
   altitude: number;
   altitudeAccuracy: number;
@@ -25,7 +25,7 @@ type CoordProxy = {
   maxSpeed: number;
 };
 
-const DEFAULT: CoordProxy = {
+const DEFAULT: GPSData = {
   accuracy: 0,
   altitude: 0,
   altitudeAccuracy: 0,
@@ -39,13 +39,14 @@ const DEFAULT: CoordProxy = {
 const KNOTS = { label: "kts", multiplier: 1.944, max: 100 };
 const KPH = { label: "km/h", multiplier: 3.6, max: 240 };
 const MPH = { label: "mph", multiplier: 2.237, max: 160 };
+const MPS = { label: "m/s", multiplier: 1, max: 100 };
 
-const SPEED_UNITS = [KPH, MPH, KNOTS];
+const SPEED_UNITS = [KPH, MPH, KNOTS, MPS];
 
 const Index = () => {
   const { geo } = useGeolocation();
 
-  const [coords, setCoords] = useState<CoordProxy>(DEFAULT);
+  const [data, setData] = useState<GPSData>(DEFAULT);
 
   const [unit, setUnit] = useState(SPEED_UNITS[0]);
 
@@ -68,7 +69,7 @@ const Index = () => {
   useEffect(() => {
     const timer = createTimer((dt) => {
       if (tween.update(dt)) {
-        setCoords({ ...tween.value });
+        setData({ ...tween.value });
       }
     });
 
@@ -89,9 +90,8 @@ const Index = () => {
         accuracy,
         altitudeAccuracy,
         heading,
+        speed,
       } = geo.coords;
-
-      const speed = 10;
 
       tween.to({
         latitude,
@@ -112,14 +112,14 @@ const Index = () => {
         <InfoCard
           icon={<VertIcon />}
           label="Latitude"
-          value={formatValue(coords.latitude, 6)}
+          value={formatValue(data.latitude, 6)}
           unit="°"
         />
 
         <InfoCard
           icon={<HoriIcon />}
           label="Longitude"
-          value={formatValue(coords.longitude, 6)}
+          value={formatValue(data.longitude, 6)}
           unit="°"
         />
       </header>
@@ -127,8 +127,8 @@ const Index = () => {
       <main>
         <div className={styles.speedometer} onClick={cycleUnit}>
           <Speedometer
-            speed={coords.speed}
-            maxSpeed={coords.maxSpeed}
+            speed={data.speed}
+            maxSpeed={data.maxSpeed}
             label={unit.label}
           />
         </div>
@@ -138,28 +138,28 @@ const Index = () => {
         <InfoCard
           icon={<MountIcon />}
           label="Altitude"
-          value={formatValue(coords.altitude, 1)}
+          value={formatValue(data.altitude, 1)}
           unit="m"
         />
 
         <InfoCard
           icon={
-            <UpIcon style={{ transform: `rotateZ(${coords?.heading ?? 0})` }} />
+            <UpIcon style={{ transform: `rotateZ(${data?.heading ?? 0})` }} />
           }
           label="Heading"
-          value={formatValue(coords.heading, 0)}
+          value={formatValue(data.heading, 0)}
           unit="°"
         />
 
         <InfoCard
           label="Positional Accuracy"
-          value={formatValue(coords.accuracy, 1)}
+          value={formatValue(data.accuracy, 1)}
           unit="m"
         />
 
         <InfoCard
           label="Altitudinal Accuracy"
-          value={formatValue(coords.altitudeAccuracy, 1)}
+          value={formatValue(data.altitudeAccuracy, 1)}
           unit="m"
         />
       </footer>
