@@ -125,17 +125,17 @@ export const Speedometer = ({
       >
         {speed.toFixed()}
       </text>
-      <text
-        key={label}
-        x="100"
-        y="152"
-        textAnchor="middle"
-        className={styles.label}
-        fill="#94a3b8"
-        style={{ fontSize: "6px" }}
-      >
-        {label}
-      </text>
+      <g key={label} className={styles.label}>
+        <text
+          x="100"
+          y="152"
+          textAnchor="middle"
+          fill="#94a3b8"
+          style={{ fontSize: "6px" }}
+        >
+          {label}
+        </text>
+      </g>
     </svg>
   );
 };
