@@ -125,7 +125,7 @@ export const Speedometer = ({
       >
         {speed.toFixed()}
       </text>
-      <g key={label} className={styles.label} transform={`scale(1)`}>
+      <g key={label} className={styles.label}>
         <text
           x="100"
           y="152"
