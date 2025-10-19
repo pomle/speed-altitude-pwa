@@ -48,7 +48,7 @@ const Index = () => {
 
   const [data, setData] = useState<GPSData>(DEFAULT);
 
-  const [unit, setUnit] = useState(SPEED_UNITS[0]);
+  const [unit, setUnit] = useState(KPH);
 
   const cycleUnit = useCallback(() => {
     setUnit((unit) => {
