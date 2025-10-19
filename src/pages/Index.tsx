@@ -22,6 +22,7 @@ type CoordProxy = {
   latitude: number;
   longitude: number;
   speed: number;
+  maxSpeed: number;
 };
 
 const DEFAULT: CoordProxy = {
@@ -32,6 +33,7 @@ const DEFAULT: CoordProxy = {
   latitude: 0,
   longitude: 0,
   speed: 0,
+  maxSpeed: 100,
 };
 
 const KNOTS = { label: "kts", multiplier: 1.944, max: 100 };
@@ -44,6 +46,15 @@ const Index = () => {
   const { geo } = useGeolocation();
 
   const [coords, setCoords] = useState<CoordProxy>(DEFAULT);
+
+  const [unit, setUnit] = useState(SPEED_UNITS[0]);
+
+  const cycleUnit = useCallback(() => {
+    setUnit((unit) => {
+      const index = SPEED_UNITS.indexOf(unit) + 1;
+      return SPEED_UNITS[index % SPEED_UNITS.length];
+    });
+  }, []);
 
   const [tween] = useState(() => {
     return spring(DEFAULT, {
@@ -71,21 +82,29 @@ const Index = () => {
   useEffect(() => {
     if (geo?.coords) {
       console.debug("Received GPS Data", geo.coords);
-      tween.to(geo.coords);
+      const {
+        latitude,
+        longitude,
+        altitude,
+        accuracy,
+        altitudeAccuracy,
+        heading,
+      } = geo.coords;
+
+      const speed = 10;
+
+      tween.to({
+        latitude,
+        longitude,
+        altitude,
+        accuracy,
+        heading,
+        altitudeAccuracy,
+        speed: speed * unit.multiplier,
+        maxSpeed: unit.max,
+      });
     }
-  }, [tween, geo?.coords]);
-
-  const [unit, setUnit] = useState(SPEED_UNITS[0]);
-
-  const cycleUnit = useCallback(() => {
-    setUnit((unit) => {
-      const index = SPEED_UNITS.indexOf(unit) + 1;
-      return SPEED_UNITS[index % SPEED_UNITS.length];
-    });
-  }, []);
-
-  const speed = coords.speed * unit.multiplier;
-  const maxSpeed = unit.max;
+  }, [tween, unit, geo?.coords]);
 
   return (
     <div className={styles.Index}>
@@ -107,7 +126,11 @@ const Index = () => {
 
       <main>
         <div className={styles.speedometer} onClick={cycleUnit}>
-          <Speedometer speed={speed} maxSpeed={maxSpeed} label={unit.label} />
+          <Speedometer
+            speed={coords.speed}
+            maxSpeed={coords.maxSpeed}
+            label={unit.label}
+          />
         </div>
       </main>
 
