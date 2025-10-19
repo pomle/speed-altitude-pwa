@@ -164,8 +164,8 @@ const Index = () => {
           value={formatValue(data.altitudeAccuracy, 1)}
           unit="m"
         />
-      </footer>
-    </div>
+      </footer >
+    </div >
   );
 };
 
