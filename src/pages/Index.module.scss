@@ -37,7 +37,9 @@
     footer {
       gap: 12px;
     }
+  }
 
+  @media (max-width: 920px) {
     footer {
       grid-template-columns: repeat(2, 1fr);
     }
