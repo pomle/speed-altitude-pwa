@@ -1,7 +1,5 @@
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo } from "react";
 import styles from "./Speedometer.module.scss";
-import { createTimer } from "../lib/timer";
-import { spring } from "@pomle/tween";
 
 const Markers = memo(() => {
   const arc = 270;
