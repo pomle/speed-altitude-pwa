@@ -41,20 +41,23 @@ const MPH = { label: "mph", multiplier: 2.237, max: 160 };
 const SPEED_UNITS = [KPH, MPH, KNOTS];
 
 const Index = () => {
-  const { geo, error } = useGeolocation();
+  const { geo } = useGeolocation();
 
-  const coords = geo?.coords;
-
-  const [coordProxy, setCoordProxy] = useState<CoordProxy>(DEFAULT);
+  const [coords, setCoords] = useState<CoordProxy>(DEFAULT);
 
   const [tween] = useState(() => {
-    return spring(DEFAULT, { mass: 400, friction: 30, stiffness: 50 });
+    return spring(DEFAULT, {
+      mass: 100,
+      friction: 20,
+      stiffness: 100,
+      precision: 0.000001,
+    });
   });
 
   useEffect(() => {
     const timer = createTimer((dt) => {
       if (tween.update(dt)) {
-        setCoordProxy({ ...tween.value });
+        setCoords({ ...tween.value });
       }
     });
 
@@ -66,10 +69,11 @@ const Index = () => {
   }, [tween]);
 
   useEffect(() => {
-    if (coords) {
-      tween.to(coords);
+    if (geo?.coords) {
+      console.debug("Received GPS Data", geo.coords);
+      tween.to(geo.coords);
     }
-  }, [tween, coords]);
+  }, [tween, geo?.coords]);
 
   const [unit, setUnit] = useState(SPEED_UNITS[0]);
 
@@ -80,7 +84,7 @@ const Index = () => {
     });
   }, []);
 
-  const speed = coordProxy ? coordProxy.speed * unit.multiplier : 0;
+  const speed = coords.speed * unit.multiplier;
   const maxSpeed = unit.max;
 
   return (
@@ -89,14 +93,14 @@ const Index = () => {
         <InfoCard
           icon={<VertIcon />}
           label="Latitude"
-          value={formatValue(coordProxy?.latitude, 6)}
+          value={formatValue(coords.latitude, 6)}
           unit="°"
         />
 
         <InfoCard
           icon={<HoriIcon />}
           label="Longitude"
-          value={formatValue(coordProxy?.longitude, 6)}
+          value={formatValue(coords.longitude, 6)}
           unit="°"
         />
       </header>
@@ -111,30 +115,28 @@ const Index = () => {
         <InfoCard
           icon={<MountIcon />}
           label="Altitude"
-          value={formatValue(coordProxy?.altitude, 1)}
+          value={formatValue(coords.altitude, 1)}
           unit="m"
         />
 
         <InfoCard
           icon={
-            <UpIcon
-              style={{ transform: `rotateZ(${coordProxy?.heading ?? 0})` }}
-            />
+            <UpIcon style={{ transform: `rotateZ(${coords?.heading ?? 0})` }} />
           }
           label="Heading"
-          value={formatValue(coordProxy?.heading, 0)}
+          value={formatValue(coords.heading, 0)}
           unit="°"
         />
 
         <InfoCard
           label="Positional Accuracy"
-          value={formatValue(coordProxy?.accuracy, 1)}
+          value={formatValue(coords.accuracy, 1)}
           unit="m"
         />
 
         <InfoCard
           label="Altitudinal Accuracy"
-          value={formatValue(coordProxy?.altitudeAccuracy, 1)}
+          value={formatValue(coords.altitudeAccuracy, 1)}
           unit="m"
         />
       </footer>
