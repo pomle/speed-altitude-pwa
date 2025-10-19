@@ -54,10 +54,6 @@ export const Speedometer = ({
           <stop offset="0%" stopColor="hsl(193 100% 50%)"></stop>
           <stop offset="100%" stopColor="hsla(193, 100%, 50%, 0)"></stop>
         </radialGradient>
-        <linearGradient id="needleGradient">
-          <stop offset="0%" stopColor="#fff"></stop>
-          <stop offset="100%" stopColor="#fff"></stop>
-        </linearGradient>
         <filter id="glow">
           <feGaussianBlur
             stdDeviation="3"
@@ -74,16 +70,16 @@ export const Speedometer = ({
         cy="100"
         r="70"
         fill="url(#speedGlow)"
-        opacity="0"
+        opacity={Math.min(fraction, 0.4)}
         className={styles.glow}
-      ></circle>
+      />
       <path
         d="M 38 162 A 88 88 0 1 1 162 162"
         fill="none"
         stroke="hsl(220 26% 18%)"
         strokeWidth="8"
         strokeLinecap="round"
-      ></path>
+      />
       <path
         d="M 38 162 A 88 88 0 1 1 162 162"
         fill="none"
@@ -94,7 +90,7 @@ export const Speedometer = ({
         strokeDashoffset={415 - 415 * fraction}
         className={styles.speedBar}
         filter="url(#glow)"
-      ></path>
+      />
       <g stroke="hsl(215 20.2% 65.1%)">
         <Markers />
       </g>
@@ -108,13 +104,7 @@ export const Speedometer = ({
           strokeWidth="1.5"
           strokeLinecap="round"
         />
-        <circle
-          cx="100"
-          cy="46"
-          r="1.5"
-          fill="#00c8ff"
-          filter="url(#glow)"
-        ></circle>
+        <circle cx="100" cy="46" r="1.5" fill="#00c8ff" filter="url(#glow)" />
       </g>
       <circle
         cx="100"
@@ -123,7 +113,7 @@ export const Speedometer = ({
         fill="#1a212d"
         stroke="#00c8ff"
         strokeWidth="1"
-      ></circle>
+      />
       <text
         x="100"
         y="140"
