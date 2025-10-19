@@ -36,10 +36,10 @@ const DEFAULT: GPSData = {
   maxSpeed: 100,
 };
 
-const KNOTS = { label: "kts", multiplier: 1.944, max: 100 };
-const KPH = { label: "km/h", multiplier: 3.6, max: 240 };
-const MPH = { label: "mph", multiplier: 2.237, max: 160 };
-const MPS = { label: "m/s", multiplier: 1, max: 100 };
+const KNOTS = { label: "kts", multiplier: 1.944, max: 80, ticks: 16, };
+const KPH = { label: "km/h", multiplier: 3.6, max: 240, ticks: 48, };
+const MPH = { label: "mph", multiplier: 2.237, max: 160, ticks: 24, };
+const MPS = { label: "m/s", multiplier: 1, max: 100, ticks: 20, };
 
 const SPEED_UNITS = [KPH, MPH, KNOTS, MPS];
 
@@ -130,6 +130,7 @@ const Index = () => {
             speed={data.speed}
             maxSpeed={data.maxSpeed}
             label={unit.label}
+            ticks={unit.ticks}
           />
         </div>
       </main>

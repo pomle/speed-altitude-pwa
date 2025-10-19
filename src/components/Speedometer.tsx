@@ -1,10 +1,10 @@
 import { memo } from "react";
 import styles from "./Speedometer.module.scss";
 
-const Markers = memo(() => {
+const Markers = memo(({ ticks }: { ticks: number }) => {
   const arc = 270;
-  const lines = 25;
-  const offset = arc / (lines - 1);
+  const lines = ticks + 1;
+  const offset = arc / ticks;
 
   return Array.from({ length: lines }).map((_, i) => {
     const angle = 135 + i * offset;
@@ -33,11 +33,13 @@ interface SpeedometerProps {
   speed: number;
   label: string;
   maxSpeed?: number;
+  ticks: number,
 }
 
 export const Speedometer = ({
   label,
   speed,
+  ticks,
   maxSpeed = 200,
 }: SpeedometerProps) => {
   const fraction = Math.min(speed / maxSpeed, 1);
@@ -92,7 +94,7 @@ export const Speedometer = ({
         filter="url(#glow)"
       />
       <g stroke="hsl(215 20.2% 65.1%)">
-        <Markers />
+        <Markers ticks={ticks} />
       </g>
       <g className={styles.needle} transform={`rotate(${rotation})`}>
         <line
