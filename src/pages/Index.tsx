@@ -9,21 +9,11 @@ import styles from "./Index.module.scss";
 import { useCallback, useEffect, useState } from "react";
 import { spring } from "@pomle/tween";
 import { createTimer } from "../lib/timer";
+import { GPSData } from "@/lib/geo";
 
 function formatValue(value: number | null, decimals = 1) {
   return typeof value === "number" ? value.toFixed(decimals) : "—";
-};
-
-type GPSData = {
-  accuracy: number;
-  altitude: number;
-  altitudeAccuracy: number;
-  heading: number;
-  latitude: number;
-  longitude: number;
-  speed: number;
-  maxSpeed: number;
-};
+}
 
 const DEFAULT: GPSData = {
   accuracy: 0,
