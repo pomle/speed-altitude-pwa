@@ -9,8 +9,9 @@ import styles from "./Index.module.scss";
 import { useCallback, useEffect, useState } from "react";
 import { spring } from "@pomle/tween";
 import { createTimer } from "../lib/timer";
-import { GPSPositionData, toGPSHistoryData } from "../lib/geo";
+import { GPSHistoryData, GPSPositionData, toGPSHistoryData } from "../lib/geo";
 import { DisplayUnit } from "../lib/unit";
+import { useStore } from "../lib/storage";
 
 function formatValue(value: number | null, decimals = 1) {
   return typeof value === "number" ? value.toFixed(decimals) : "—";
@@ -41,8 +42,11 @@ const UnitCycleOrder: DisplayUnit[] = [
 ] as const;
 
 const Index = () => {
+  const store = useStore();
+
   const { geo } = useGeolocation();
 
+  const [history, setHistory] = useState<GPSHistoryData[]>([]);
   const [display, setDisplay] = useState<GPSPositionData>(DEFAULT);
 
   const [unit, setUnit] = useState(UnitCycleOrder[0]);
@@ -80,9 +84,30 @@ const Index = () => {
   useEffect(() => {
     if (geo?.coords) {
       console.debug("Received GPS Data", geo.coords);
-      tween.to(toGPSHistoryData(geo).coords);
+
+      const data = toGPSHistoryData(geo);
+
+      setHistory((history) => {
+        return history.concat([data]);
+      });
+
+      tween.to(data.coords);
+
+      if (store) {
+        store.put(data);
+      }
     }
-  }, [tween, unit, geo?.coords]);
+  }, [tween, store, geo?.coords]);
+
+  useEffect(() => {
+    if (store) {
+      store.list().then((data) => {
+        setHistory((history) => {
+          return data.concat(history);
+        });
+      });
+    }
+  }, [store]);
 
   return (
     <div className={styles.Index}>
