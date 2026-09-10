@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import { spring } from "@pomle/tween";
 import { createTimer } from "../lib/timer";
 import { GPSPositionData } from "@/lib/geo";
+import { DisplayUnit } from "@/lib/unit";
 
 function formatValue(value: number | null, decimals = 1) {
   return typeof value === "number" ? value.toFixed(decimals) : "—";
@@ -25,24 +26,31 @@ const DEFAULT: GPSPositionData = {
   speed: 0,
 };
 
-const KNOTS = { label: "kts", multiplier: 1.944, max: 80, ticks: 16, };
-const KPH = { label: "km/h", multiplier: 3.6, max: 240, ticks: 48, };
-const MPH = { label: "mph", multiplier: 2.237, max: 160, ticks: 24, };
-const MPS = { label: "m/s", multiplier: 1, max: 100, ticks: 20, };
+const Units: Record<string, DisplayUnit> = {
+  KNOTS: { label: "kts", multiplier: 1.944, max: 80, ticks: 16 },
+  KPH: { label: "km/h", multiplier: 3.6, max: 240, ticks: 48 },
+  MPH: { label: "mph", multiplier: 2.237, max: 160, ticks: 24 },
+  MPS: { label: "m/s", multiplier: 1, max: 100, ticks: 20 },
+} as const;
 
-const SPEED_UNITS = [KPH, MPH, KNOTS, MPS];
+const UnitCycleOrder: DisplayUnit[] = [
+  Units.KPH,
+  Units.MPH,
+  Units.KNOTS,
+  Units.MPS,
+] as const;
 
 const Index = () => {
   const { geo } = useGeolocation();
 
   const [display, setDisplay] = useState<GPSPositionData>(DEFAULT);
 
-  const [unit, setUnit] = useState(KPH);
+  const [unit, setUnit] = useState(UnitCycleOrder[0]);
 
   const cycleUnit = useCallback(() => {
     setUnit((unit) => {
-      const index = SPEED_UNITS.indexOf(unit) + 1;
-      return SPEED_UNITS[index % SPEED_UNITS.length];
+      const index = UnitCycleOrder.indexOf(unit) + 1;
+      return UnitCycleOrder[index % UnitCycleOrder.length];
     });
   }, []);
 
