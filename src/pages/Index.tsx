@@ -35,7 +35,7 @@ const SPEED_UNITS = [KPH, MPH, KNOTS, MPS];
 const Index = () => {
   const { geo } = useGeolocation();
 
-  const [data, setData] = useState<GPSPositionData>(DEFAULT);
+  const [display, setDisplay] = useState<GPSPositionData>(DEFAULT);
 
   const [unit, setUnit] = useState(KPH);
 
@@ -58,7 +58,7 @@ const Index = () => {
   useEffect(() => {
     const timer = createTimer((dt) => {
       if (tween.update(dt)) {
-        setData({ ...tween.value });
+        setDisplay({ ...tween.value });
       }
     });
 
@@ -100,14 +100,14 @@ const Index = () => {
         <InfoCard
           icon={<VertIcon />}
           label="Latitude"
-          value={formatValue(data.latitude, 6)}
+          value={formatValue(display.latitude, 6)}
           unit="°"
         />
 
         <InfoCard
           icon={<HoriIcon />}
           label="Longitude"
-          value={formatValue(data.longitude, 6)}
+          value={formatValue(display.longitude, 6)}
           unit="°"
         />
       </header>
@@ -115,7 +115,7 @@ const Index = () => {
       <main>
         <div className={styles.speedometer} onClick={cycleUnit}>
           <Speedometer
-            speed={data.speed * unit.multiplier}
+            speed={display.speed * unit.multiplier}
             maxSpeed={unit.max}
             label={unit.label}
             ticks={unit.ticks}
@@ -127,30 +127,30 @@ const Index = () => {
         <InfoCard
           icon={<MountIcon />}
           label="Altitude"
-          value={formatValue(data.altitude, 1)}
+          value={formatValue(display.altitude, 1)}
           unit="m"
         />
 
         <InfoCard
           icon={
-            <div style={{ transform: `rotate(${data?.heading ?? 0}deg)` }}>
+            <div style={{ transform: `rotate(${display?.heading ?? 0}deg)` }}>
               <UpIcon />
             </div>
           }
           label="Heading"
-          value={formatValue(data.heading, 0)}
+          value={formatValue(display.heading, 0)}
           unit="°"
         />
 
         <InfoCard
           label="Positional Accuracy"
-          value={formatValue(data.accuracy, 1)}
+          value={formatValue(display.accuracy, 1)}
           unit="m"
         />
 
         <InfoCard
           label="Altitudinal Accuracy"
-          value={formatValue(data.altitudeAccuracy, 1)}
+          value={formatValue(display.altitudeAccuracy, 1)}
           unit="m"
         />
       </footer>
