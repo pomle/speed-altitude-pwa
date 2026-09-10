@@ -1,4 +1,4 @@
-export type GPSData = {
+export type GPSPositionData = {
   accuracy: number;
   altitude: number;
   altitudeAccuracy: number;

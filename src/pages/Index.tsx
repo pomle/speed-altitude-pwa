@@ -9,13 +9,13 @@ import styles from "./Index.module.scss";
 import { useCallback, useEffect, useState } from "react";
 import { spring } from "@pomle/tween";
 import { createTimer } from "../lib/timer";
-import { GPSData } from "@/lib/geo";
+import { GPSPositionData } from "@/lib/geo";
 
 function formatValue(value: number | null, decimals = 1) {
   return typeof value === "number" ? value.toFixed(decimals) : "—";
 }
 
-const DEFAULT: GPSData = {
+const DEFAULT: GPSPositionData = {
   accuracy: 0,
   altitude: 0,
   altitudeAccuracy: 0,
@@ -35,7 +35,7 @@ const SPEED_UNITS = [KPH, MPH, KNOTS, MPS];
 const Index = () => {
   const { geo } = useGeolocation();
 
-  const [data, setData] = useState<GPSData>(DEFAULT);
+  const [data, setData] = useState<GPSPositionData>(DEFAULT);
 
   const [unit, setUnit] = useState(KPH);
 
