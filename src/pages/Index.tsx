@@ -115,13 +115,6 @@ const Index = () => {
 
       <footer>
         <InfoCard
-          icon={<MountIcon />}
-          label="Altitude"
-          value={formatValue(display.altitude, 1)}
-          unit="m"
-        />
-
-        <InfoCard
           icon={
             <div style={{ transform: `rotate(${display?.heading ?? 0}deg)` }}>
               <UpIcon />
@@ -130,6 +123,13 @@ const Index = () => {
           label="Heading"
           value={formatValue(display.heading, 0)}
           unit="°"
+        />
+
+        <InfoCard
+          icon={<MountIcon />}
+          label="Altitude"
+          value={formatValue(display.altitude, 1)}
+          unit="m"
         />
 
         <InfoCard
