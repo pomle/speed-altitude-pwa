@@ -11,7 +11,10 @@ export class HistoryStore {
   list() {
     return new Promise<GPSHistoryData[]>((resolve, reject) => {
       const tx = this.#db.transaction("history", "readonly");
-      const request = tx.objectStore("history").getAll();
+      const now = Date.now();
+      const then = now - 1 * 24 * 60 * 60 * 1000;
+      const range = IDBKeyRange.bound(then, now);
+      const request = tx.objectStore("history").getAll(range);
       request.addEventListener("error", reject);
       request.addEventListener("success", () => {
         resolve(request.result);
