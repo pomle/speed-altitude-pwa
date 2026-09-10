@@ -6,5 +6,4 @@ export type GPSData = {
   latitude: number;
   longitude: number;
   speed: number;
-  maxSpeed: number;
 };

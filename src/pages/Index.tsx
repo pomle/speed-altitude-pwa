@@ -23,7 +23,6 @@ const DEFAULT: GPSData = {
   latitude: 0,
   longitude: 0,
   speed: 0,
-  maxSpeed: 100,
 };
 
 const KNOTS = { label: "kts", multiplier: 1.944, max: 80, ticks: 16, };
@@ -90,8 +89,7 @@ const Index = () => {
         accuracy,
         heading,
         altitudeAccuracy,
-        speed: speed * unit.multiplier,
-        maxSpeed: unit.max,
+        speed,
       });
     }
   }, [tween, unit, geo?.coords]);
@@ -117,8 +115,8 @@ const Index = () => {
       <main>
         <div className={styles.speedometer} onClick={cycleUnit}>
           <Speedometer
-            speed={data.speed}
-            maxSpeed={data.maxSpeed}
+            speed={data.speed * unit.multiplier}
+            maxSpeed={unit.max}
             label={unit.label}
             ticks={unit.ticks}
           />
@@ -155,8 +153,8 @@ const Index = () => {
           value={formatValue(data.altitudeAccuracy, 1)}
           unit="m"
         />
-      </footer >
-    </div >
+      </footer>
+    </div>
   );
 };
 
