@@ -9,7 +9,7 @@ import styles from "./Index.module.scss";
 import { useCallback, useEffect, useState } from "react";
 import { spring } from "@pomle/tween";
 import { createTimer } from "../lib/timer";
-import { GPSPositionData } from "@/lib/geo";
+import { GPSPositionData, toGPSHistoryData } from "@/lib/geo";
 import { DisplayUnit } from "@/lib/unit";
 
 function formatValue(value: number | null, decimals = 1) {
@@ -80,25 +80,7 @@ const Index = () => {
   useEffect(() => {
     if (geo?.coords) {
       console.debug("Received GPS Data", geo.coords);
-      const {
-        latitude,
-        longitude,
-        altitude,
-        accuracy,
-        altitudeAccuracy,
-        heading,
-        speed,
-      } = geo.coords;
-
-      tween.to({
-        latitude,
-        longitude,
-        altitude,
-        accuracy,
-        heading,
-        altitudeAccuracy,
-        speed,
-      });
+      tween.to(toGPSHistoryData(geo).coords);
     }
   }, [tween, unit, geo?.coords]);
 
