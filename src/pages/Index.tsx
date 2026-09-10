@@ -9,8 +9,8 @@ import styles from "./Index.module.scss";
 import { useCallback, useEffect, useState } from "react";
 import { spring } from "@pomle/tween";
 import { createTimer } from "../lib/timer";
-import { GPSPositionData, toGPSHistoryData } from "@/lib/geo";
-import { DisplayUnit } from "@/lib/unit";
+import { GPSPositionData, toGPSHistoryData } from "../lib/geo";
+import { DisplayUnit } from "../lib/unit";
 
 function formatValue(value: number | null, decimals = 1) {
   return typeof value === "number" ? value.toFixed(decimals) : "—";
