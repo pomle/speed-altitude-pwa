@@ -11,6 +11,7 @@ import { spring } from "@pomle/tween";
 import { createTimer } from "../lib/timer";
 import { GPSHistoryData, GPSPositionData, toGPSHistoryData } from "../lib/geo";
 import { DisplayUnit } from "../lib/unit";
+import { UnitValue } from "../components/UnitValue";
 import { useStore } from "../lib/storage";
 
 function formatValue(value: number | null, decimals = 1) {
@@ -112,19 +113,13 @@ const Index = () => {
   return (
     <div className={styles.Index}>
       <header>
-        <InfoCard
-          icon={<VertIcon />}
-          label="Latitude"
-          value={formatValue(display.latitude, 6)}
-          unit="°"
-        />
+        <InfoCard icon={<VertIcon />} label="Latitude">
+          <UnitValue value={formatValue(display.latitude, 6)} unit="°" />
+        </InfoCard>
 
-        <InfoCard
-          icon={<HoriIcon />}
-          label="Longitude"
-          value={formatValue(display.longitude, 6)}
-          unit="°"
-        />
+        <InfoCard icon={<HoriIcon />} label="Longitude">
+          <UnitValue value={formatValue(display.longitude, 6)} unit="°" />
+        </InfoCard>
       </header>
 
       <main>
@@ -146,28 +141,24 @@ const Index = () => {
             </div>
           }
           label="Heading"
-          value={formatValue(display.heading, 0)}
-          unit="°"
-        />
+        >
+          <UnitValue value={formatValue(display.heading, 0)} unit="°" />
+        </InfoCard>
 
-        <InfoCard
-          icon={<MountIcon />}
-          label="Altitude"
-          value={formatValue(display.altitude, 1)}
-          unit="m"
-        />
+        <InfoCard icon={<MountIcon />} label="Altitude">
+          <UnitValue value={formatValue(display.altitude, 1)} unit="m" />
+        </InfoCard>
 
-        <InfoCard
-          label="Positional Accuracy"
-          value={formatValue(display.accuracy, 1)}
-          unit="m"
-        />
+        <InfoCard label="Positional Accuracy">
+          <UnitValue value={formatValue(display.accuracy, 1)} unit="m" />
+        </InfoCard>
 
-        <InfoCard
-          label="Altitudinal Accuracy"
-          value={formatValue(display.altitudeAccuracy, 1)}
-          unit="m"
-        />
+        <InfoCard label="Altitudinal Accuracy">
+          <UnitValue
+            value={formatValue(display.altitudeAccuracy, 1)}
+            unit="m"
+          />
+        </InfoCard>
       </footer>
     </div>
   );

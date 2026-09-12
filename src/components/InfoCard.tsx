@@ -4,20 +4,17 @@ import { UnitValue } from "./UnitValue";
 
 interface InfoCardProps {
   label: string | ReactNode;
-  value: string | number;
   icon?: ReactNode;
-  unit?: string;
+  children: ReactNode;
 }
 
-export const InfoCard = ({ label, value, icon, unit }: InfoCardProps) => {
+export const InfoCard = ({ label, children, icon }: InfoCardProps) => {
   return (
     <div className={styles.card}>
       <div className={styles.icon}>{icon}</div>
       <div className={styles.data}>
         <label>{label}</label>
-        <div>
-          <UnitValue value={value} unit={unit} />
-        </div>
+        <div>{children}</div>
       </div>
     </div>
   );
