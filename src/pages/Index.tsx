@@ -13,6 +13,8 @@ import { GPSHistoryData, GPSPositionData, toGPSHistoryData } from "../lib/geo";
 import { DisplayUnit } from "../lib/unit";
 import { UnitValue } from "../components/UnitValue";
 import { useStore } from "../lib/storage";
+import { PositionGraph } from "../components/PositionGraph";
+import { AltitudeGraph } from "../components/AltitudeGraph";
 
 function formatValue(value: number | null, decimals = 1) {
   return typeof value === "number" ? value.toFixed(decimals) : "—";
@@ -160,6 +162,9 @@ const Index = () => {
           />
         </InfoCard>
       </footer>
+
+      <PositionGraph data={history} />
+      <AltitudeGraph data={history} />
     </div>
   );
 };

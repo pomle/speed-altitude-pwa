@@ -1,0 +1,16 @@
+.graphCard {
+  align-items: center;
+  background: #131720;
+  border: 1px solid #222a3a;
+  border-radius: 16px;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.graphCard label {
+  color: #94a3b8;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
