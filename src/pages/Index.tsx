@@ -13,6 +13,7 @@ import { GPSHistoryData, GPSPositionData, toGPSHistoryData } from "../lib/geo";
 import { DisplayUnit } from "../lib/unit";
 import { UnitValue } from "../components/UnitValue";
 import { useStore } from "../lib/storage";
+import { SpeedGraph } from "../components/SpeedGraph";
 import { PositionGraph } from "../components/PositionGraph";
 import { AltitudeGraph } from "../components/AltitudeGraph";
 
@@ -163,6 +164,7 @@ const Index = () => {
         </InfoCard>
       </footer>
 
+      <SpeedGraph data={history} />
       <PositionGraph data={history} />
       <AltitudeGraph data={history} />
     </div>
