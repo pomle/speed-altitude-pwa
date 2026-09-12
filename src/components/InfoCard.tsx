@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import styles from "./InfoCard.module.scss";
+import { UnitValue } from "./UnitValue";
 
 interface InfoCardProps {
   label: string | ReactNode;
@@ -15,8 +16,7 @@ export const InfoCard = ({ label, value, icon, unit }: InfoCardProps) => {
       <div className={styles.data}>
         <label>{label}</label>
         <div>
-          <span className={styles.value}>{value}</span>{" "}
-          <span className={styles.unit}>{unit}</span>
+          <UnitValue value={value} unit={unit} />
         </div>
       </div>
     </div>
