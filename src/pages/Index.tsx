@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import { spring } from "@pomle/tween";
 import { createTimer } from "../lib/timer";
 import { GPSHistoryData, GPSPositionData, toGPSHistoryData } from "../lib/geo";
-import { DisplayUnit } from "../lib/unit";
+import { DisplayUnit, Units } from "../lib/unit";
 import { UnitValue } from "../components/UnitValue";
 import { useStore } from "../lib/storage";
 import { SpeedGraph } from "../components/SpeedGraph";
@@ -31,18 +31,11 @@ const DEFAULT: GPSPositionData = {
   speed: 0,
 };
 
-const Units: Record<string, DisplayUnit> = {
-  KNOTS: { label: "kts", multiplier: 1.944, max: 80, ticks: 16 },
-  KPH: { label: "km/h", multiplier: 3.6, max: 240, ticks: 48 },
-  MPH: { label: "mph", multiplier: 2.237, max: 160, ticks: 24 },
-  MPS: { label: "m/s", multiplier: 1, max: 100, ticks: 20 },
-} as const;
-
 const UnitCycleOrder: DisplayUnit[] = [
-  Units.KPH,
-  Units.MPH,
-  Units.KNOTS,
-  Units.MPS,
+  Units.kph,
+  Units.mph,
+  Units.kts,
+  Units.mps,
 ] as const;
 
 const Index = () => {
@@ -164,7 +157,7 @@ const Index = () => {
         </InfoCard>
       </footer>
 
-      <SpeedGraph data={history} />
+      <SpeedGraph data={history} unit={unit} />
       <PositionGraph data={history} />
       <AltitudeGraph data={history} />
     </div>
