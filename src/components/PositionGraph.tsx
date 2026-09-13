@@ -30,7 +30,7 @@ export const PositionGraph = memo(({ data }: PositionGraphProps) => {
   return (
     <GraphCard>
       <div>
-        <label>Position History</label>
+        <label>Position Track</label>
       </div>
       <Graph range={range} points={points} />
     </GraphCard>
