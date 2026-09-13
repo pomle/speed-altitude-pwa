@@ -2,7 +2,7 @@ import { GPSHistoryData } from "../lib/geo";
 import { memo, useMemo } from "react";
 import { Graph } from "./Graph";
 import { GraphCard } from "./GraphCard";
-import { pointsToRange } from "../lib/graph";
+import { pointsToRange, smoothen } from "../lib/graph";
 
 function hasSpeed(data: GPSHistoryData) {
   return Number.isFinite(data.coords.speed);
@@ -14,12 +14,13 @@ interface SpeedGraphProps {
 
 export const SpeedGraph = memo(({ data }: SpeedGraphProps) => {
   const points = useMemo(() => {
-    return data.filter(hasSpeed).map((data) => {
+    const speed = data.filter(hasSpeed).map((data) => {
       return {
         x: data.timestamp,
         y: -data.coords.speed,
       };
     });
+    return smoothen(speed, 2);
   }, [data]);
 
   const range = useMemo(() => {
