@@ -23,9 +23,7 @@ export const SpeedGraph = memo(({ data }: SpeedGraphProps) => {
     return smoothen(speed, 2);
   }, [data]);
 
-  const range = useMemo(() => {
-    return pointsToRange(points);
-  }, [points]);
+  const range = pointsToRange(points);
 
   return (
     <GraphCard>

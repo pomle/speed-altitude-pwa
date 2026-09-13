@@ -25,9 +25,7 @@ export const PositionGraph = memo(({ data }: PositionGraphProps) => {
     });
   }, [data]);
 
-  const range = useMemo(() => {
-    return pointsToRange(points);
-  }, [points]);
+  const range = pointsToRange(points);
 
   return (
     <GraphCard>

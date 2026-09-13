@@ -22,16 +22,18 @@ export const AltitudeGraph = memo(({ data }: AltitudeGraphProps) => {
     });
   }, [data]);
 
-  const range = useMemo(() => {
-    return pointsToRange(points);
-  }, [points]);
+  const range = pointsToRange(points, 10);
+
+  const labels = {
+    y: range.map((step) => [step.y, step.y.toFixed(1)] as const),
+  };
 
   return (
     <GraphCard>
       <div>
         <label>Altitude History</label>
       </div>
-      <Graph range={range} points={points} />
+      <Graph range={range} points={points} labels={labels} />
     </GraphCard>
   );
 });
