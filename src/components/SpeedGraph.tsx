@@ -17,7 +17,7 @@ export const SpeedGraph = memo(({ data }: SpeedGraphProps) => {
       .map((data) => {
         return {
           x: data.timestamp,
-          y: data.coords.speed,
+          y: -data.coords.speed,
         };
       });
   }, [data]);

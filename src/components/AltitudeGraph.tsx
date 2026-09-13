@@ -17,7 +17,7 @@ export const AltitudeGraph = memo(({ data }: AltitudeGraphProps) => {
       .map((data) => {
         return {
           x: data.timestamp,
-          y: data.coords.altitude,
+          y: -data.coords.altitude,
         };
       });
   }, [data]);
