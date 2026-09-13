@@ -20,7 +20,7 @@ export const PositionGraph = memo(({ data }: PositionGraphProps) => {
       .map((data) => {
         return {
           x: data.coords.longitude,
-          y: data.coords.latitude,
+          y: -data.coords.latitude,
         };
       });
   }, [data]);
