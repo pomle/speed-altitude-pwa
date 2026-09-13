@@ -17,7 +17,7 @@ export const SpeedGraph = memo(({ data }: SpeedGraphProps) => {
     const speed = data.filter(hasSpeed).map((data) => {
       return {
         x: data.timestamp,
-        y: -data.coords.speed,
+        y: data.coords.speed,
       };
     });
     return smoothen(speed, 2);

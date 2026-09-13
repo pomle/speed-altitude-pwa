@@ -5,25 +5,27 @@ const SIZE: Point = { x: 300, y: 150 };
 
 type Point = { x: number; y: number };
 
+function normalize(value: number, min: number, max: number) {
+  return (value - min) / (max - min);
+}
+
 interface GraphProps {
   range: Readonly<[Point, Point]>;
   points: Readonly<Point[]>;
 }
 
-export const Graph = ({ range, points, labels }: GraphProps) => {
-  const normalized = useMemo(() => {
-    const [min, max] = range;
+export const Graph = ({ range: [min, max], points }: GraphProps) => {
+  const normalized = points.map((point) => {
+    const x = normalize(point.x, min.x, max.x);
+    const y = normalize(-point.y, -max.y, -min.y);
+    return { x, y } as const;
+  });
 
-    return points.map((point) => {
-      const x = (point.x - min.x) / (max.x - min.x);
-      const y = (point.y - min.y) / (max.y - min.y);
-      return [x * SIZE.x, y * SIZE.y] as const;
-    });
-  }, [range, points]);
-
-  const polylinePoints = useMemo(() => {
-    return normalized.map((p) => p.join(",")).join(" ");
-  }, [normalized]);
+  const polylinePoints = normalized
+    .map((p) => {
+      return [p.x * SIZE.x, p.y * SIZE.y].join(",");
+    })
+    .join(" ");
 
   return (
     <div className={styles.graphCard}>
