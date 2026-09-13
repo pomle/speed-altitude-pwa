@@ -1,6 +1,6 @@
 export type Point = { x: number; y: number };
 
-export function pointsToRange(points: Point[]) {
+export function pointsToRange(points: Point[], round: number = 0) {
   let xMin = Infinity;
   let yMin = Infinity;
   let xMax = -Infinity;
@@ -21,9 +21,22 @@ export function pointsToRange(points: Point[]) {
     }
   }
 
+  if (round) {
+    xMin = Math.floor(xMin / round) * round;
+    yMin = Math.floor(yMin / round) * round;
+    xMax = Math.ceil(xMax / round) * round;
+    yMax = Math.ceil(yMax / round) * round;
+  }
+
   return [
-    { x: xMin, y: yMin },
-    { x: xMax, y: yMax },
+    {
+      x: xMin,
+      y: yMin,
+    },
+    {
+      x: xMax,
+      y: yMax,
+    },
   ] as const;
 }
 
