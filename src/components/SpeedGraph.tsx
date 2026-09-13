@@ -4,22 +4,22 @@ import { Graph } from "./Graph";
 import { GraphCard } from "./GraphCard";
 import { pointsToRange } from "../lib/graph";
 
+function hasSpeed(data: GPSHistoryData) {
+  return Number.isFinite(data.coords.speed);
+}
+
 interface SpeedGraphProps {
   data: GPSHistoryData[];
 }
 
 export const SpeedGraph = memo(({ data }: SpeedGraphProps) => {
   const points = useMemo(() => {
-    return data
-      .filter((data) => {
-        return Number.isFinite(data.coords.speed);
-      })
-      .map((data) => {
-        return {
-          x: data.timestamp,
-          y: -data.coords.speed,
-        };
-      });
+    return data.filter(hasSpeed).map((data) => {
+      return {
+        x: data.timestamp,
+        y: -data.coords.speed,
+      };
+    });
   }, [data]);
 
   const range = useMemo(() => {
