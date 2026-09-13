@@ -29,7 +29,7 @@ export const Graph = ({ range, points }: GraphProps) => {
   return (
     <div className={styles.graphCard}>
       <svg>
-        <polyline points={pointsAttr} stroke="#00c8ff" />
+        <polyline points={pointsAttr} stroke="#00c8ff" fill="none" />
       </svg>
     </div>
   );
