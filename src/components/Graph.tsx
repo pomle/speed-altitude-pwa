@@ -7,7 +7,7 @@ type Point = { x: number; y: number };
 
 interface GraphProps {
   range: Readonly<[Point, Point]>;
-  points: Point[];
+  points: Readonly<Point[]>;
 }
 
 export const Graph = ({ range, points }: GraphProps) => {
