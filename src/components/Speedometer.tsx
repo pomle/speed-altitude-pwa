@@ -33,7 +33,8 @@ interface SpeedometerProps {
   speed: number;
   label: string;
   maxSpeed?: number;
-  ticks: number,
+  fractionDigits?: number;
+  ticks: number;
 }
 
 export const Speedometer = ({
@@ -41,6 +42,7 @@ export const Speedometer = ({
   speed,
   ticks,
   maxSpeed = 200,
+  fractionDigits = 0,
 }: SpeedometerProps) => {
   const fraction = Math.min(speed / maxSpeed, 1);
   const rotation = fraction * 270 - 135;
@@ -123,7 +125,7 @@ export const Speedometer = ({
         fill="#f8fafc"
         style={{ fontSize: "28px" }}
       >
-        {speed.toFixed()}
+        {speed.toFixed(fractionDigits)}
       </text>
       <g key={label} className={styles.label}>
         <text

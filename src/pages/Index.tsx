@@ -130,6 +130,7 @@ const Index = () => {
             maxSpeed={unit.max}
             label={unit.label}
             ticks={unit.ticks}
+            fractionDigits={unit.fractionDigits}
           />
         </div>
       </main>
