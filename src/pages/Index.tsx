@@ -55,6 +55,11 @@ const Index = () => {
     });
   }, []);
 
+  const clearHistory = useCallback(() => {
+    store.clear();
+    setHistory([]);
+  }, [store]);
+
   const [tween] = useState(() => {
     return spring(DEFAULT, {
       mass: 100,
@@ -160,6 +165,8 @@ const Index = () => {
       <SpeedGraph data={history} unit={unit} />
       <PositionGraph data={history} />
       <AltitudeGraph data={history} />
+
+      <button onClick={clearHistory}>Clear</button>
     </div>
   );
 };

@@ -8,6 +8,17 @@ export class HistoryStore {
     this.#db = db;
   }
 
+  clear() {
+    return new Promise<void>((resolve, reject) => {
+      const tx = this.#db.transaction("history", "readwrite");
+      const request = tx.objectStore("history").clear();
+      request.addEventListener("error", reject);
+      request.addEventListener("success", () => {
+        resolve(request.result);
+      });
+    });
+  }
+
   list() {
     return new Promise<GPSHistoryData[]>((resolve, reject) => {
       const tx = this.#db.transaction("history", "readonly");
